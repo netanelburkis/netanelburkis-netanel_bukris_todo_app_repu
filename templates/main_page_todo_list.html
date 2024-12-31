@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List Web App</title>
+    <link rel="stylesheet" href="../static/css_style_main_page_todo_list.css">
+</head>
+<body>
+    <div class="Weather">
+        <a class="weatherwidget-io" href="https://forecast7.com/en/31d0534d85/israel/" data-label_1="ISRAEL" data-label_2="WEATHER" data-theme="original">ISRAEL WEATHER</a>
+        <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        </script>
+    </div>
+        
+    <div id="clock">
+        <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:340px;height:35px;" src="https://www.clocklink.com/html5embed.php?clock=017&timezone=IST&color=white&size=340&Title=&Message=&Target=&From=2024,1,1,0,0,0&Color=white"></iframe>
+    </div>
+    
+    <div class="main_title">
+        <h1><span class="highlight">T</span>ODO <span class="highlight">L</span>IST</h1>
+        <a href="{{ url_for('by_netanel_bukris') }}" id="by"><span>By Netanel Bukris</span></a>
+    </div>
+    
+    <div id="hello">
+        <h3>
+            Hello,
+            {% if user %}
+                {{ user }}!
+            {% else %}
+                user!
+            {% endif %}
+            Would you like to manage your tasks?
+        </h3>
+    </div>
+    
+    <div class="search-box">
+        <form method="POST">
+            <input type="text" name="search" placeholder="Search everything" value="{{ query }}">
+            <button type="submit">🔍</button>
+        </form>
+    </div>
+    
+    <div class="assignments-box">
+        <form method="POST">
+            <input type="text" name="task" placeholder="Add/del assignments">
+            <button type="submit" name="action" value="add">Add</button>
+            <button type="submit" name="action" value="del">Delete</button>
+        </form>
+    </div>
+
+    <div id="tasks-list">
+        <h4>Your Tasks:</h4>    
+        <ul>
+            {% if tasks %}
+                {% for task in tasks %}
+                    <li>
+                        <span class="{% if task.completed %}completed{% endif %}">
+                            {{ task.task }}
+                        </span>
+                        <span class="task-date">({{ task.date_added }})</span>
+                        
+                        <form method="POST" style="display:inline;">
+                            <button type="submit" name="action" value="toggle" class="toggle-btn" 
+                                    style="background:none; border:none; cursor:pointer;">
+                                {% if task.completed %}
+                                    <span style="font-size: 18px;">✘</span>
+                                {% else %}
+                                    <span style="font-size: 18px;">✔️</span>
+                                {% endif %}
+                            </button>
+                            <input type="hidden" name="task_id" value="{{ task.task_id }}">
+                        </form>
+
+                        <form method="POST" style="display:inline;">
+                            <button type="submit" name="action" value="del" class="del-btn" 
+                                    style="background:none; border:none; cursor:pointer; color:red;">
+                                delete
+                            </button>
+                            <input type="hidden" name="task_id" value="{{ task.task_id }}">
+                        </form>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>No tasks found.</li>
+            {% endif %}
+        </ul>
+    </div>
+
+</body>
+</html>

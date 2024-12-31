@@ -1,0 +1,205 @@
+body {
+    margin: 0; 
+    padding: 0; 
+    background-image: url('./background-image.jpg'); 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+.main_title {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    background-color: #dcd0c4;
+    border-radius: 15px;
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);
+    width: 35%;
+    height: 40px;
+    padding: 0px 0px;
+    margin: 0 auto;
+    margin-left: 350px;
+    margin-top: -20px;
+}
+
+#main_title {
+    font-size: 35px;
+    margin: 0;
+    padding: 0px;
+    color: #333;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#a_main_title {
+    color: black; 
+}
+
+#a_main_title :hover {
+    position: relative;
+    color: #ab2525;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#info{
+    font-size: 30px;
+    color: #f20e0e;
+    font-family: 'Playfair Display', serif;
+}
+
+.highlight {
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3)
+}
+
+#by { 
+    position: relative;
+    font-size: 14px;
+    color: #ab2525;
+    margin-top: 65px;
+    margin-left: -28px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    padding: 0px;
+    background-color: transparent;
+    border: none; 
+    cursor: pointer;
+}
+
+#by:hover {
+    color: #ffffff;
+    background-color: #ab2525;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-box {
+    position: relative;
+    margin-left: 725px;
+    margin-top: -60px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    background-color: #dcd0c4;
+    width: 245px; 
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+}
+
+.search-box input[type="text"] {
+    padding: 5px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-box button {
+    padding: 5px;
+    background-color: #dcd0c4; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background-color: #3681b6;
+}
+
+#hello{
+    position: relative;
+    display: flex;
+    margin-left: 6px;
+    margin-top: -5px;
+    padding: 0px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: #ab2525;
+    padding: 0px;
+}
+
+.assignments-box {
+    position: relative;
+    margin-left: 5px;
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    background-color: #dcd0c4; 
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+}
+
+.assignments-box input[type="text"] {
+    padding: 5px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.assignments-box button {
+    padding: 5px;
+    background-color: #dcd0c4; 
+    color: rgb(66, 64, 64);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Playfair Display', serif;
+}
+
+.assignments-box button:hover {
+    background-color: #3681b6;
+}
+
+#tasks-list {
+    position: relative;
+    font-size: 25px;
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: flex-start; 
+}
+
+#tasks-list h4 {
+    position: absolute;
+    margin-top: -5px;
+    font-family: 'Playfair Display', serif; 
+    font-size: 20px; 
+    color: #000000; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+    border-bottom: 1.5px solid #000000; 
+    padding-bottom: 5px;
+    text-align: center; 
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.task-date {
+    font-size: 0.5em;
+    color: #fefefe;
+    margin-left: 10px;
+}
+
+.toggle-btn {
+    font-size: 1.2em;
+    margin-left: 10px;
+}
