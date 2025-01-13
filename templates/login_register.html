@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+    <link rel="stylesheet" href="../static/css_style_main_page_todo_list.css">
+</head>
+<body>
+
+    <div class="Weather">
+        <a class="weatherwidget-io" href="https://forecast7.com/en/31d0534d85/israel/" data-label_1="ISRAEL" data-label_2="WEATHER" data-theme="original">ISRAEL WEATHER</a>
+        <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        </script>
+    </div>
+        
+    <div id="clock">
+        <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:340px;height:35px;" src="https://www.clocklink.com/html5embed.php?clock=017&timezone=IST&color=white&size=340&Title=&Message=&Target=&From=2024,1,1,0,0,0&Color=white"></iframe>
+    </div>
+    
+    <div class="main_title">
+        <h1><span class="highlight">T</span>ODO <span class="highlight">L</span>IST</h1>
+        <a href="{{ url_for('by_netanel_bukris') }}" id="by"><span>By Netanel Bukris</span></a>
+    </div>
+
+    <div class="login/register">
+        <h1>Login / Register</h1>
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+    
+    <!-- טופס התחברות -->
+    <h2>Login</h2>
+    <form method="POST">
+        <input type="hidden" name="action" value="login">
+        
+        <label for="login_username">Username:</label>
+        <input type="text" id="login_username" name="username" required>
+
+        <label for="login_password">Password:</label>
+        <input type="password" id="login_password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+    
+    <br>
+    
+    <!-- טופס רישום -->
+    <h2>Register</h2>
+    <form method="POST">
+        <input type="hidden" name="action" value="register">
+        
+        <label for="register_username">Username:</label>
+        <input type="text" id="register_username" name="username" required>
+
+        <label for="register_password">Password:</label>
+        <input type="password" id="register_password" name="password" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    </div> <!-- סגירת הדיב login/register -->
+</body>
+</html>

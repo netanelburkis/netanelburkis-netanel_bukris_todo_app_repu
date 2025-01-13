@@ -29,7 +29,7 @@
             {% if user %}
                 {{ user }}!
             {% else %}
-                user!
+                <a href="{{ url_for('login') }}">Login</a>!
             {% endif %}
             Would you like to manage your tasks?
         </h3>
