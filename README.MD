@@ -18,6 +18,26 @@ A simple to-do list web application built using Flask, SQLAlchemy, MySQL, Docker
 * Nginx (for reverse proxy setup)  
 * Gunicorn (WSGI server for running Flask in production)
 
+## *Project Structure*
+```bash
+Todo_list/
+├── README.md              # Project documentation
+├── app/                   # Flask application directory
+│   ├── Dockerfile         # Docker configuration for the Flask app
+│   ├── app_project.py             # Main Flask application
+│   ├── requirements.txt   # Python dependencies
+│   ├── static/         # static file
+│      └── background-image.jpg     # background-image
+│      └── css_style_main_page_todo_list.css     # css_style
+│   └── templates/         # HTML templates
+│     └── by_netanel_bukris.html     # by template file
+│     └── login_register.html     # login template file
+│     └── main_page_todo_list.html     # Main template file
+├── docker-compose.yaml    # Docker Compose configuration
+└── nginx/                 # Nginx reverse proxy configuration
+    └── default.conf       # Nginx configuration file
+```
+
 ## *Installation*
 
 *Clone the repository*:   
@@ -266,7 +286,7 @@ The default.conf file, located in the nginx/ directory, contains:
 
 Upstream - Defining the Backend
 upstream flask_backend defines a group of servers that Nginx will forward requests to.
-${APP_1_HOST}:5000 {APP_2_HOST}:5000 is the address of our applications (Flask runs on port 5000).
+${APP_1_HOST}:5000, {APP_2_HOST}:5000 is the address of our applications (Flask runs on port 5000).
 
 **APP_1\2_HOST is an environment variable that is defined in docker-compose.yaml .**
 **Note that it is set correctly**
@@ -327,7 +347,7 @@ Here you can add screenshots or a link to your live app.
 
 ## **License**
 
-This project is licensed under the MIT License \- see the LICENSE file for details.
+This project is open-source and free to use.
 
 ## **Acknowledgments**
 
