@@ -1,5 +1,10 @@
 FROM python:3.9-slim
 
+ENV DB_HOST=localhost
+ENV DB_USER=root
+ENV DB_PASSWORD=password
+ENV DB_NAME=todo_list
+
 WORKDIR /app
 
 COPY requirements.txt /app/

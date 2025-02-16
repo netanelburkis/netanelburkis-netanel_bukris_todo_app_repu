@@ -1,0 +1,71 @@
+services:
+  app_1:
+    image: app
+    environment:
+      FLASK_APP: app_project.py
+      FLASK_ENV: production
+      DB_HOST: db
+      DB_USER: python_todo_list_app
+      DB_PASSWORD: 123password
+      DB_NAME: todo_list_app_db
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+    - front
+    - back
+
+  app_2:
+    image: app
+    environment:
+      FLASK_APP: app_project.py
+      FLASK_ENV: production
+      DB_HOST: db
+      DB_USER: python_todo_list_app
+      DB_PASSWORD: 123password
+      DB_NAME: todo_list_app_db
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+    - front
+    - back
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: todo_list_app_db
+      MYSQL_USER: python_todo_list_app
+      MYSQL_PASSWORD: 123password
+    volumes:
+    -  sql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+    networks:
+    - back
+
+  nginx:
+    image: nginx:latest
+    ports:
+    -  "80:80"
+    volumes:
+    -  ./nginx/default.conf:/etc/nginx/templates/default.conf.template
+    depends_on:
+    -  app_1
+    -  app_2
+    environment:
+      APP_1_HOST: app_1
+      APP_2_HOST: app_2
+    networks:
+    - front
+
+volumes:
+  sql_data:
+
+networks:
+  back:
+  front:
