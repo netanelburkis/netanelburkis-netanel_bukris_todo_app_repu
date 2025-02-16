@@ -125,7 +125,7 @@ The project includes a docker-compose.yaml file to set up all the services:
 ```yaml 
 services:
   app_1:
-    image: app
+    image: netanelbukris/to_do_list
     environment:
       FLASK_APP: app_project.py
       FLASK_ENV: production
@@ -141,7 +141,7 @@ services:
     - back
 
   app_2:
-    image: app
+    image: netanelbukris/to_do_list
     environment:
       FLASK_APP: app_project.py
       FLASK_ENV: production
@@ -194,26 +194,6 @@ volumes:
 networks:
   back:
   front:
-```
-
-To build and start the services:
-```bash 
-docker-compose up --build
- ```
-
-## **Dockerfile**
- ```dockerfile
-# Use official Python image as the base image  
-FROM python:3.9-slim
- ```
-
-# Set environment variables  
-```bash 
-ENV PYTHONUNBUFFERED 1
-ENV DB_HOST=localhost
-ENV DB_USER=root
-ENV DB_PASSWORD=password
-ENV DB_NAME=todo_list
  ```
 
 # Create and set the working directory in the container  
@@ -245,6 +225,9 @@ EXPOSE 5000
 ```bash 
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app_project:app"]
  ```
+
+You can use the dockerfile or the image from docker: 
+netanelbukris/to_do_list
 
 ## **Nginx Configuration**
 

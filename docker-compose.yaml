@@ -1,6 +1,6 @@
 services:
   app_1:
-    image: app
+    image: netanelbukris/to_do_list
     environment:
       FLASK_APP: app_project.py
       FLASK_ENV: production
@@ -16,7 +16,7 @@ services:
     - back
 
   app_2:
-    image: app
+    image: netanelbukris/to_do_list
     environment:
       FLASK_APP: app_project.py
       FLASK_ENV: production
