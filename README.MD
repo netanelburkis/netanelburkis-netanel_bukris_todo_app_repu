@@ -30,9 +30,9 @@ Todo_list/
 │      └── background-image.jpg     # background-image
 │      └── css_style_main_page_todo_list.css     # css_style
 │   └── templates/         # HTML templates
-│     └── by_netanel_bukris.html     # by template file
-│     └── login_register.html     # login template file
-│     └── main_page_todo_list.html     # Main template file
+│     └── by-netanel-bukris.html     # by template file
+│     └── login-register.html     # login template file
+│     └── main-page-todo-list.html     # Main template file
 ├── docker-compose.yaml    # Docker Compose configuration
 └── nginx/                 # Nginx reverse proxy configuration
     └── default.conf       # Nginx configuration file

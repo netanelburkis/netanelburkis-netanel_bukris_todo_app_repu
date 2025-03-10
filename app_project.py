@@ -31,7 +31,7 @@ class User(db.Model):
 with todo_list_app.app_context():
     db.create_all()
 
-@todo_list_app.route('/login_register', methods=['GET', 'POST'])
+@todo_list_app.route('/login-register', methods=['GET', 'POST'])
 def login_register():
     if request.method == 'POST':
         action = request.form.get('action')
@@ -44,11 +44,11 @@ def login_register():
                 session['username'] = username
                 return redirect(url_for('main_page_todo_list__app'))
             else:
-                return render_template('login_register.html', error="Invalid username or password.")
+                return render_template('login-register.html', error="Invalid username or password.")
         
         elif action == 'register':  
             if User.query.filter_by(username=username).first():
-                return render_template('login_register.html', error="Username already exists.")
+                return render_template('login-register.html', error="Username already exists.")
             
             hashed_password = generate_password_hash(password, method='pbkdf2:sha256')  
             new_user = User(username=username, password=hashed_password)
@@ -57,7 +57,7 @@ def login_register():
             
             return redirect(url_for('login_register'))
     
-    return render_template('login_register.html')
+    return render_template('login-register.html')
 
 @todo_list_app.route('/', methods=['GET', 'POST'])
 def main_page_todo_list__app():
@@ -97,11 +97,11 @@ def main_page_todo_list__app():
     for task in tasks:
         task.date_added = task.date_added.strftime('%Y-%m-%d %H:%M')
         
-    return render_template('main_page_todo_list.html', user=user, tasks=tasks, query=query)
+    return render_template('main-page-todo-list.html', user=user, tasks=tasks, query=query)
 
-@todo_list_app.route('/by_netanel_bukris')
+@todo_list_app.route('/by-netanel-bukris')
 def by_netanel_bukris():
-    return render_template('by_netanel_bukris.html')
+    return render_template('by-netanel-bukris.html')
 
 if __name__ == "__main__":
     todo_list_app.run(debug=True)
