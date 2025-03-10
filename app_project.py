@@ -103,5 +103,9 @@ def main_page_todo_list__app():
 def by_netanel_bukris():
     return render_template('by-netanel-bukris.html')
 
+@todo_list_app.route('/health', methods=['GET'])
+def health_check():
+    return 'OK', 200
+
 if __name__ == "__main__":
     todo_list_app.run(debug=True)
