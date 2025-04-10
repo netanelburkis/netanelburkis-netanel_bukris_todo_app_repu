@@ -33,6 +33,9 @@ Todo_list/
 │     └── by-netanel-bukris.html     # by template file
 │     └── login-register.html     # login template file
 │     └── main-page-todo-list.html     # Main template file
+│   └── test     # Test files and configurations
+│     └── requirements.txt     # Dependencies for test environment
+│     └── test_selenium_in_parts.py     # Selenium test script for app
 ├── docker-compose.yaml    # Docker Compose configuration
 └── nginx/                 # Nginx reverse proxy configuration
     └── default.conf       # Nginx configuration file
@@ -320,6 +323,24 @@ networks:
 ```
 When the apps are connected to both the back and the front, the database will be connected to the back and nginx to the front.
 
+## **testing**
+The project uses Selenium for automating browser tests and Pytest for running the tests.
+
+To run the tests, follow these steps:
+
+1.Install the required dependencies for testing:
+
+```bash 
+pip install -r app/test/requirements.txt
+  ```
+
+2.Run the Selenium-based tests with Pytest:
+
+```bash
+pytest app/test/test_selenium_in_parts.py
+  ```
+This will execute the tests and verify the app's functionality.
+
 ## **File Structure**
 
 * `app_project.py`: Main Flask application file. 
@@ -330,7 +351,9 @@ When the apps are connected to both the back and the front, the database will be
 * `templates/`: Contains HTML files for the web app.  
 * `static/`: Contains static files like CSS and images.  
 * `config/`: Optional configuration files (not present in your current code, but can be added for better project organization).
-
+* `test/`: Contains test files for the application, including Selenium-based browser tests.
+   * `test_selenium_in_parts.py`: Selenium test script for app functionality.
+   * `requirements.txt`: Dependencies for test environment.
 
 ## **Usage**
 
