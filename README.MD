@@ -1,8 +1,19 @@
-# *Todo List by Netanel Bukris*
+# *Todo List by Netanel Bukris* 📋
+![Python](https://img.shields.io/badge/python-blue)
+![Docker](https://img.shields.io/badge/docker-blue)
+![Flask](https://img.shields.io/badge/Flask-blue)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-blue)
+![MySQL](https://img.shields.io/badge/MySQL-blue)
+![Gunicorn](https://img.shields.io/badge/Gunicorn-blue)
+![Nginx](https://img.shields.io/badge/Nginx-blue)
+![Weather Widget](https://img.shields.io/badge/Weather%20Widget-brightgreen)
+![Pytest](https://img.shields.io/badge/Pytest-yellowgreen)
+![Selenium](https://img.shields.io/badge/Selenium-green)
+![Coverage](https://img.shields.io/badge/Coverage-blue)
 
 A simple to-do list web application built using Flask, SQLAlchemy, MySQL, Docker, Gunicorn, and Nginx. This app allows users to register, log in, and manage tasks. It uses a MySQL database to store user information and tasks.
 
-## *Features*
+## *Features*✨
 
 * User Authentication: Register, login, and manage sessions.  
 * Task Management: Add, delete, and mark tasks as completed.  
@@ -10,7 +21,7 @@ A simple to-do list web application built using Flask, SQLAlchemy, MySQL, Docker
 * Weather Widget: Shows the weather for Israel.  
 * Clock Widget: Displays the current time.
 
-## *Prerequisites*
+## *Prerequisites*🧰
 
 * Python 3.9 or later  
 * Docker and Docker Compose  
@@ -18,7 +29,7 @@ A simple to-do list web application built using Flask, SQLAlchemy, MySQL, Docker
 * Nginx (for reverse proxy setup)  
 * Gunicorn (WSGI server for running Flask in production)
 
-## *Project Structure*
+## *Project Structure* 📁
 ```bash
 Todo_list/
 ├── README.md              # Project documentation
@@ -27,21 +38,21 @@ Todo_list/
 │   ├── app_project.py             # Main Flask application
 │   ├── requirements.txt   # Python dependencies
 │   ├── static/         # static file
-│      └── background-image.jpg     # background-image
+│      ├── background-image.jpg      # background-image
 │      └── css_style_main_page_todo_list.css     # css_style
-│   └── templates/         # HTML templates
-│     └── by-netanel-bukris.html     # by template file
-│     └── login-register.html     # login template file
+│   ├── templates/         # HTML templates
+│     ├── by-netanel-bukris.html     # by template file
+│     ├── login-register.html     # login template file
 │     └── main-page-todo-list.html     # Main template file
-│   └── test     # Test files and configurations
-│     └── requirements.txt     # Dependencies for test environment
+│   ├── test     # Test files and configurations
+│     ├── requirements.txt     # Dependencies for test environment
 │     └── test_selenium_in_parts.py     # Selenium test script for app
 ├── docker-compose.yaml    # Docker Compose configuration
 └── nginx/                 # Nginx reverse proxy configuration
     └── default.conf       # Nginx configuration file
 ```
 
-## *Installation*
+## *Installation* 🔧
 
 *Clone the repository*:   
 ```bash   
@@ -219,35 +230,26 @@ networks:
   front:
  ```
 
-# Create and set the working directory in the container  
+## **Dockerfile Overview**
 ```bash 
+# Create and set the working directory in the container
 WORKDIR /app
- ```
 
 # Copy the requirements file into the container  
-```bash 
 COPY requirements.txt /app/
- ```
 
 # Install the dependencies from the requirements file  
-```bash 
 RUN pip install --no-cache-dir -r requirements.txt
- ```
 
 # Copy the entire application code into the container  
-```bash 
 COPY . /app/
- ```
 
 # Expose the Flask app's default port  
-```bash 
 EXPOSE 5000
- ```
 
-# Define the command to run the app using Gunicorn  
-```bash 
+# Define the command to run the app using Gunicorn   
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app_project:app"]
- ```
+  ```
 
 You can use the dockerfile or the image from docker: 
 netanelbukris/to_do_list
@@ -341,7 +343,54 @@ pytest app/test/test_selenium_in_parts.py
   ```
 This will execute the tests and verify the app's functionality.
 
-## **File Structure**
+## **coverage**
+
+## Installation
+
+To install the necessary dependencies, including **coverage**, you can use pip:
+
+```bash
+pip install coverage
+  ```
+## **Usage with Pytest**
+1.Running Tests with Coverage:
+You can use coverage to run your tests with pytest by running the following command:
+
+```bash
+coverage run -m pytest
+  ```
+This will run all your tests and record which lines of code were covered during the test execution.
+
+2.Running Selenium Tests:
+If you're running Selenium-specific tests, you can specify your test file (for example, selenium.py) at the end:
+
+```bash
+coverage run -m pytest selenium.py
+  ```
+## **Viewing Coverage Report**
+After running your tests with coverage, you can view a detailed report of the coverage:
+
+1.Text Report:
+To display the coverage report directly in the terminal, use:
+
+```bash
+coverage report
+  ```
+2.HTML Report:
+You can generate an HTML version of the coverage report, which will allow you to see which lines were covered with color coding (green for covered, red for not covered):
+
+```bash
+coverage html
+  ```
+3.Opening HTML Report:
+Once the HTML report is generated, you can view it by opening the index.html file in a web browser:
+
+```bash
+open htmlcov/index.html
+  ```
+This will give you a visual representation of your test coverage.
+
+## **File Structure**🗂️
 
 * `app_project.py`: Main Flask application file. 
 * `requirements.txt`: Project dependencies. 
@@ -355,24 +404,18 @@ This will execute the tests and verify the app's functionality.
    * `test_selenium_in_parts.py`: Selenium test script for app functionality.
    * `requirements.txt`: Dependencies for test environment.
 
-## **Usage**
+## **Usage**🚀
 
 1. **Start the application**: After setting up everything, navigate to the app's root directory and run it using Flask or Docker.  
 2. **Login/Register**: Visit the app at `http://127.0.0.1` in your browser. You can register a new user or log in with an existing account.  
 3. **Manage Tasks**: After logging in, you can add new tasks, delete tasks, or mark them as completed. Tasks will persist in the MySQL database.  
 4. **Search**: Use the search bar to find tasks by keywords in the task description.
 
-
-
-## **Screenshots**
-
-Here you can add screenshots or a link to your live app.
-
-## **License**
+## **License**📜
 
 This project is open-source and free to use.
 
-## **Acknowledgments**
+## **Acknowledgments** 🛠️
 
 * **Flask**: A micro web framework written in Python.  
 * **SQLAlchemy**: An ORM that simplifies database interactions in Python.  
@@ -381,3 +424,6 @@ This project is open-source and free to use.
 * **Gunicorn**: WSGI HTTP server for running Flask in production.  
 * **Nginx**: Web server used as a reverse proxy for the app.  
 * **Weather Widget**: Displaying live weather information.
+* **Pytest**: A testing framework for Python that allows for writing simple and scalable test cases. It supports fixtures and has a powerful plugin architecture to extend functionality. We use Pytest for unit testing our application and ensuring code quality.
+* **Selenium**: A popular tool for automating web browsers. Selenium allows us to simulate user interactions with the web application and perform end-to-end testing to verify that the app behaves correctly in different scenarios.
+* **Coverage**: A tool used to measure code coverage, which helps in ensuring that our tests are thorough and cover all areas of the code. Coverage provides detailed reports showing which parts of the code were executed during tests, and which were not, helping us identify untested areas and improve test coverage.
