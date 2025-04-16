@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose down || true
-                    dokcer compose up -d 
+                    docker compose up -d 
                 '''    
             }
         }
