@@ -5,7 +5,7 @@ pipeline {
             steps {
                 echo 'Building...'
                 sh '''
-                    docker build -t myapp /app
+                    docker build -t myapp ./app
                 '''
             }
         }
