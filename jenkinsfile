@@ -5,7 +5,7 @@ pipline {
             steps {
                 echo 'Building...'
                 sh '''
-                    docker build -t app_project /app
+                    docker build -t myapp /app
                 '''
             }
         }
