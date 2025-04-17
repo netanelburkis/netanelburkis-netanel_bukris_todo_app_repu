@@ -45,7 +45,7 @@ def test_register_and_login(driver):
         EC.presence_of_element_located((By.ID, "hello"))
     ).text
 
-    assert "not_the_username" in hello_text, f"Username 'not_the_username' not found in greeting text: {hello_text}"
+    assert username in hello_text, f"Username '{username}' not found in greeting text: {hello_text}"
 
 ## test_add_tesk.py 
 from selenium.webdriver.common.by import By
