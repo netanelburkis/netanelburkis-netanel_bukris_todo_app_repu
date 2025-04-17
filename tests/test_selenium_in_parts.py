@@ -25,15 +25,15 @@ APP_URL = os.getenv("TODO_APP_URL", "http://localhost:80")
 def test_page_loads_with_login_register_title(driver):
     driver.get(APP_URL)
 
-    # Wait until the desired title appears using the XPath
+    # Wait for the <h1> element inside the div with class 'login/register'
     title_element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/h1"))
+        EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'login/register')]/h1"))
     )
 
     page_title = title_element.text.strip()
 
     assert page_title == "Login / Register", f"❌ Expected title 'Login / Register', but got '{page_title}'"
-    
+
 ### test_register_login.py
 import os
 from selenium.webdriver.common.by import By
