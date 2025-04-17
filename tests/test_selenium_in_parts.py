@@ -211,6 +211,3 @@ def test_links_navigation(driver):
     )
     tasks_list = driver.find_element(By.ID, "tasks-list")
     assert tasks_list is not None, "tasks-list not found!"
-
-    ## Close the driver after all tests
-    driver.quit()
