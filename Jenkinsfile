@@ -40,7 +40,7 @@ pipeline {
                 echo 'Pushing Docker image...'
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     sh '''
-                        echo $DOCKER_PASSWORD | docker login --username foo --password-stdin
+                        echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
                         docker tag myapp $DOCKER_USERNAME/$IMAGE_NAME:latest
                         docker push $DOCKER_USERNAME/$IMAGE_NAME:latest
                     '''
