@@ -182,7 +182,7 @@ def test_delete_task(driver):
 
     # Wait until the task disappears from the list
     WebDriverWait(driver, 20).until(
-        lambda d: task_name not in d.find_element(By.ID, "tasks-list").text
+        EC.invisibility_of_element_located((By.XPATH, f"//li[./span[contains(text(), '{task_name}')]]"))
     )
 
     # Re-search the task list after removal
@@ -229,3 +229,4 @@ def test_links_navigation(driver):
     )
     tasks_list = driver.find_element(By.ID, "tasks-list")
     assert tasks_list is not None, "tasks-list not found!"
+    
