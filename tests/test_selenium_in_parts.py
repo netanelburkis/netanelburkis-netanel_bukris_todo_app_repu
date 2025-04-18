@@ -174,7 +174,7 @@ def test_delete_task(driver):
         EC.presence_of_element_located((By.ID, "hello"))
     )
 
-    # Delete
+    # Delete task
     delete_button = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, f"//li[./span[contains(text(), '{task_name}')]]//button[@name='action' and @value='del']"))
     )
