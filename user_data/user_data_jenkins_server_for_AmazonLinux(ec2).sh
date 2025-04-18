@@ -10,6 +10,9 @@ exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&
 # Update the system
 yum update -y
 
+# Install Git
+yum install -y git
+
 # Install Java 17 (Amazon Corretto)
 amazon-linux-extras enable corretto17
 yum install -y java-17-amazon-corretto
