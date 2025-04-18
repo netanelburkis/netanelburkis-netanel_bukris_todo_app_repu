@@ -1,0 +1,64 @@
+# Byte-compiled / cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+
+# Virtual environment
+venv/
+.env/
+*.env
+*.venv
+
+# Logs and database files
+*.log
+*.sqlite3
+db.sqlite3
+
+# Compiled Java files (if any)
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven target directory
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ and VSCode settings
+.idea/
+.vscode/
+*.iml
+
+# Docker-specific ignores
+docker-compose.override.yml
+.dockerignore
+
+# Python-specific package files
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Node.js (if you have frontend dependencies)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore build artifacts
+dist/
+build/
