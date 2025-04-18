@@ -54,7 +54,7 @@ pipeline {
             echo 'Cleaning up...'
             sh '''
                 docker compose down || true
-                docker rmi myapp || true
+                docker rmi $DOCKER_USERNAME/$IMAGE_NAME:latest || true
             '''
         }
     }
