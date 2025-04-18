@@ -41,8 +41,17 @@ systemctl start docker
 usermod -aG docker jenkins
 usermod -aG docker ec2-user
 
+# Install Docker Compose v2
+mkdir -p /usr/local/lib/docker/cli-plugins
+curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
 # Restart Jenkins to apply group changes
 systemctl restart jenkins
+
+# Verify Docker and Compose
+docker --version
+docker compose version
 
 # Install Python 3.12 (via source or custom repo if needed)
 # Amazon Linux 2 comes with Python 3.7; to install Python 3.12 you need IUS or build manually
