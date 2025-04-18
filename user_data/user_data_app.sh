@@ -14,4 +14,4 @@ echo \
 apt-get update -y
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-docker run -d -e DB_NAME=todo -e DB_USER=myuser -e DB_PASSWORD=pass -e DB_HOST=172.31.30.100 -p 5000:5000 yp3yp3/to_do_list
+docker run -d -e DB_NAME=todo -e DB_USER=myuser -e DB_PASSWORD=pass -e DB_HOST=172.31.30.100 -p 5000:5000 netanelbukris/to_do_list
