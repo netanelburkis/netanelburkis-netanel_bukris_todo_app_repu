@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'netanelbukris/to_do_list'
+        IMAGE_NAME = "netanelbukris/to_do_list"
         VERSION = "${BUILD_NUMBER}"
     }
     stages {
@@ -9,7 +9,7 @@ pipeline {
             steps {
                 echo 'Building docker image...'
                 sh '''
-                    docker build -t ${IMAGE_NAME}:${VERSION} ./app
+                    docker build -t myapp ./app
                 '''
             }
         }
@@ -43,8 +43,9 @@ pipeline {
                     script {
                         docker.withRegistry('', 'docker-hub') {
                             docker.image("${IMAGE_NAME}").push("${VERSION}")
-                            docker.image("${IMAGE_NAME}").push("latest")
-                        }    
+                            docker.image("${IMAGE_NAME}").push('latest')
+                        }  
+                    }      
                 }
             }                       
         }  
@@ -56,7 +57,6 @@ pipeline {
             sh '''
                 docker compose down || true
             '''
-            }
         }
     }
 }
