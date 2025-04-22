@@ -9,7 +9,10 @@ pipeline {
             steps {
                 echo 'Building docker image...'
                 sh '''
-                    docker build -t ${IMAGE_NAME}:${VERSION} -t ${IMAGE_NAME}:latest ./app
+                    echo $USER
+                    docker build -t myapp ./app
+                    docker tag myapp ${IMAGE_NAME}:${VERSION}
+                    docker tag myapp ${IMAGE_NAME}:latest
                 '''
             }
         }
