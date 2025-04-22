@@ -1,14 +1,15 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'to_do_list'
+        IMAGE_NAME = 'netanelbukris/to_do_list'
+        VERSION = "${BUILD_NUMBER}"
     }
     stages {
         stage('Build docker image') {
             steps {
                 echo 'Building docker image...'
                 sh '''
-                    docker build -t myapp ./app
+                    docker build -t ${IMAGE_NAME}:${VERSION} ./app
                 '''
             }
         }
@@ -39,11 +40,11 @@ pipeline {
             steps {
                 echo 'Pushing Docker image...'
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                    sh '''
-                        echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
-                        docker tag myapp $DOCKER_USERNAME/$IMAGE_NAME:latest
-                        docker push $DOCKER_USERNAME/$IMAGE_NAME:latest
-                    '''
+                    script {
+                        docker.withRegistry('', 'docker-hub') {
+                            docker.image("${IMAGE_NAME}").push("${VERSION}")
+                            docker.image("${IMAGE_NAME}").push("latest")
+                        }    
                 }
             }                       
         }  
@@ -55,6 +56,7 @@ pipeline {
             sh '''
                 docker compose down || true
             '''
+            }
         }
     }
 }
