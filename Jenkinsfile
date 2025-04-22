@@ -9,7 +9,7 @@ pipeline {
             steps {
                 echo 'Building docker image...'
                 sh '''
-                    docker build -t myapp ./app
+                    docker build -t ${IMAGE_NAME}:${VERSION} -t ${IMAGE_NAME}:latest ./app
                 '''
             }
         }
@@ -40,16 +40,15 @@ pipeline {
             steps {
                 echo 'Pushing Docker image...'
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                    script {
-                        docker.withRegistry('', 'docker-hub') {
-                            docker.image("${IMAGE_NAME}").push("${VERSION}")
-                            docker.image("${IMAGE_NAME}").push('latest')
-                        }  
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                        docker push ${IMAGE_NAME}:${VERSION}
+                        docker push ${IMAGE_NAME}:latest
+                    '''  
                     }      
                 }
             }                       
         }  
-    }
 
     post {
         always {
