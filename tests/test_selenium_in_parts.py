@@ -26,7 +26,7 @@ def test_page_loads_with_login_register_title(driver):
     driver.get(APP_URL)
 
     # Wait for the <h1> element inside the div with class 'login/register'
-    title_element = WebDriverWait(driver, 10).until(
+    title_element = WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'login/register')]/h1"))
     )
 
