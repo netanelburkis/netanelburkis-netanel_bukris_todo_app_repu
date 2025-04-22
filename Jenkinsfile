@@ -54,6 +54,8 @@ pipeline {
             }
         }
         post {
+            // Requires "Slack Notification" plugin in Jenkins:
+            // Manage Jenkins → Plugin Manager → Install "Slack Notification"
              failure {
                 slackSend(
                     channel: '#jenkins',
