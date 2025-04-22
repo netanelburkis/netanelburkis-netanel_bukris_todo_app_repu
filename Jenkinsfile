@@ -1,8 +1,9 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = "netanelbukris/to_do_list"
+        IMAGE_NAME = 'netanelbukris/to_do_list'
         VERSION = "${BUILD_NUMBER}"
+        email = 'netanel.nisim.bukris@gmail.com'
     }
     stages {
         stage('Build docker image') {
@@ -16,7 +17,6 @@ pipeline {
                 '''
             }
         }
-
         stage('Run up with Docker compose') {
             steps {
                 echo 'Running Docker compose up...'
@@ -26,7 +26,6 @@ pipeline {
                 '''    
             }
         }
-
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
@@ -38,7 +37,6 @@ pipeline {
                 '''    
             }
         }    
-
         stage('Push Docker Image') {
             steps {
                 // Requires "Docker Pipeline" plugin in Jenkins:
@@ -55,13 +53,38 @@ pipeline {
                 }
             }
         }
-
-    post {
-        always {
-            echo 'Cleaning up...'
-            sh '''
-                docker compose down || true
-            '''
+        post {
+             failure {
+                slackSend(
+                    channel: '#jenkins',
+                    color: 'danger',
+                    message: "${JOB_NAME}.${BUILD_NUMBER} FAILED"
+                )
+                
+                emailext(
+                    subject: "${JOB_NAME}.${BUILD_NUMBER} FAILED",
+                    mimeType: 'text/html',
+                    to: "$email",
+                    body: "${JOB_NAME}.${BUILD_NUMBER} FAILED"
+                )
+            }
+            success {
+                slackSend(
+                    channel: '#jenkins',
+                    color: 'good',
+                    message: "${JOB_NAME}.${BUILD_NUMBER} PASSED"
+                )
+                emailext(
+                    subject: "${JOB_NAME}.${BUILD_NUMBER} PASSED",
+                    mimeType: 'text/html',
+                    to: "$email",
+                    body: "${JOB_NAME}.${BUILD_NUMBER} PASSED"
+                )
+            }
+            always {
+                sh '''
+                    docker compose down || true
+                '''
+            }
         }
     }
-}
