@@ -94,5 +94,3 @@ apt-get update
 
 # Install Google Chrome
 apt-get install google-chrome-stable -y
-
-reboot
