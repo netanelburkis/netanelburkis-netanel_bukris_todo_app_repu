@@ -48,7 +48,7 @@ sudo systemctl status jenkins
 apt-get update
 
 # Install Docker dependencies
-apt-get install ca-certificates curl
+apt-get install -y ca-certificates curl
 
 # Create directory for storing Docker's GPG key
 install -m 0755 -d /etc/apt/keyrings
@@ -94,3 +94,5 @@ apt-get update
 
 # Install Google Chrome
 apt-get install google-chrome-stable -y
+
+reboot
