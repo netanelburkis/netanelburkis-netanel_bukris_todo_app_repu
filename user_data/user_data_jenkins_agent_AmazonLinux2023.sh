@@ -1,43 +1,43 @@
-#!/bin/bash
+#!/bin/bash 
 
-# Update and install prerequisites
+# Update system packages
 dnf update -y
-dnf install -y java-21-openjdk git curl ca-certificates gnupg2 lsb-core shadow-utils wget dnf-plugins-core
+
+# Install Java 21 (Amazon Corretto)
+dnf install -y java-21-amazon-corretto
 
 # Install Docker
-dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+dnf install -y docker
+systemctl enable docker
+systemctl start docker
 
-# Enable and start Docker
-systemctl enable --now docker
-
-# Add 'ec2-user' to the docker group
+# Add default user to Docker group
 usermod -aG docker ec2-user
 
-# Install Python 3.12 and venv (from source, since DNF doesn’t have it yet)
-dnf groupinstall -y "Development Tools"
-dnf install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel wget make
+# Install Docker Compose v2 (as a CLI plugin)
+mkdir -p /usr/local/lib/docker/cli-plugins
 
-cd /usr/src
-wget https://www.python.org/ftp/python/3.12.3/Python-3.12.3.tgz
-tar xvf Python-3.12.3.tgz
-cd Python-3.12.3
-./configure --enable-optimizations
-make altinstall
+curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
+    -o /usr/local/lib/docker/cli-plugins/docker-compose
 
-# Ensure Python 3.12 is linked
-ln -s /usr/local/bin/python3.12 /usr/bin/python3.12
-python3.12 -m ensurepip
-python3.12 -m pip install virtualenv
+chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-# Install Google Chrome (via RPM)
-cat << EOF > /etc/yum.repos.d/google-chrome.repo
+# Install Python 3.12 and venv support
+dnf install -y python3.12 python3.12-venv
+
+# Add Google Chrome repository
+cat <<EOF > /etc/yum.repos.d/google-chrome.repo
 [google-chrome]
-name=google-chrome
+name=Google Chrome
 baseurl=https://dl.google.com/linux/chrome/rpm/stable/x86_64
 enabled=1
 gpgcheck=1
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+gpgkey=https://dl.google.com/linux/linux_signing_key.pub
 EOF
 
+# Install Google Chrome
 dnf install -y google-chrome-stable
+
+# Optionally reboot to apply group membership (not mandatory at this point)
+# reboot
+
