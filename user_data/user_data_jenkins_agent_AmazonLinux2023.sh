@@ -39,5 +39,5 @@ EOF
 dnf install -y google-chrome-stable
 
 # Optionally reboot to apply group membership (not mandatory at this point)
-# reboot
+reboot
 
