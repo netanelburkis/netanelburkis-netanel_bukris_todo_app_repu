@@ -29,11 +29,11 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 sh '''
-                    python3 -m venv .venv
-                    . .venv/bin/activate
-                    pip install -r ./tests/requirements.txt
-                    pytest --maxfail=1 ./tests
-                '''    
+                    python3 -m venv .venv && \
+                    . .venv/bin/activate && \
+                    pip install -r tests/requirements.txt && \
+                    pytest ./tests
+                '''
             }
         }    
         stage('Push Docker Image') {
