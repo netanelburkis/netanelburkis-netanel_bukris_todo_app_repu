@@ -14,6 +14,9 @@ systemctl start docker
 # Add default user to Docker group
 usermod -aG docker ec2-user
 
+# Apply group changes immediately
+newgrp docker
+
 # Install Docker Compose v2 (as a CLI plugin)
 mkdir -p /usr/local/lib/docker/cli-plugins
 
@@ -21,6 +24,9 @@ curl -SL https://github.com/docker/compose/releases/latest/download/docker-compo
     -o /usr/local/lib/docker/cli-plugins/docker-compose
 
 chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+# Ensure Docker Compose has correct permissions
+chown root:root /usr/local/lib/docker/cli-plugins/docker-compose
 
 # Install Python 3.12 and venv support
 dnf install -y python3.12 python3.12-venv
@@ -37,7 +43,4 @@ EOF
 
 # Install Google Chrome
 dnf install -y google-chrome-stable
-
-# Optionally reboot to apply group membership (not mandatory at this point)
-#reboot
 
