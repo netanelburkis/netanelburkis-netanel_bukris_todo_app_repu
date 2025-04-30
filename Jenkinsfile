@@ -57,6 +57,8 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
+                // Requires "Docker Pipeline" plugin in Jenkins:
+                // Manage Jenkins → Plugin Manager → Install "Docker Pipeline"
                 echo 'Pushing Docker image...'
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     script {
@@ -71,6 +73,8 @@ pipeline {
     }
 
     post {
+        // Requires "Slack Notification" plugin in Jenkins:
+        // Manage Jenkins → Plugin Manager → Install "Slack Notification"
         failure {
             slackSend(
                 channel: '#jenkins',
