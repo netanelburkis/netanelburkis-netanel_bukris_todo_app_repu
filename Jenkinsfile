@@ -10,9 +10,9 @@ pipeline {
             steps {
                 echo 'Building docker image...'
                 sh '''
-                    sudo docker build -t myapp ./app
-                    sudo docker tag myapp ${IMAGE_NAME}:${VERSION}
-                    sudo docker tag myapp ${IMAGE_NAME}:latest
+                    docker build -t myapp ./app
+                    docker tag myapp ${IMAGE_NAME}:${VERSION}
+                    docker tag myapp ${IMAGE_NAME}:latest
                 '''
             }
         }
@@ -20,8 +20,8 @@ pipeline {
             steps {
                 echo 'Running Docker compose up...'
                 sh '''
-                    sudo docker compose down || true
-                    sudo docker compose up -d 
+                    docker compose down || true
+                    docker compose up -d 
                 '''    
             }
         }
@@ -46,9 +46,9 @@ pipeline {
                 echo 'Pushing Docker image...'
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     script {
-                        sudo docker.withRegistry('', 'docker-hub') {
-                            sudo docker.image("${IMAGE_NAME}").push("${VERSION}")
-                            sudo docker.image("${IMAGE_NAME}").push('latest')    
+                        docker.withRegistry('', 'docker-hub') {
+                            docker.image("${IMAGE_NAME}").push("${VERSION}")
+                            docker.image("${IMAGE_NAME}").push('latest')    
                         }
                     }
                 }
@@ -84,7 +84,7 @@ pipeline {
         }
         always {
             sh '''
-                sudo docker compose down || true
+                docker compose down || true
             '''
         }
     }
