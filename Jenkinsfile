@@ -28,13 +28,19 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
+                    echo "Creating virtual environment..."
                     python3 -m venv .venv
-                    . .venv/bin/activate
-                    pip install -r tests/requirements.txt
-                    pytest ./tests
+
+                    echo "Installing dependencies..."
+                    .venv/bin/pip install --upgrade pip
+                    .venv/bin/pip install -r tests/requirements.txt
+
+                    echo "Running tests with pytest..."
+                    .venv/bin/python -m pytest tests/
                 '''
             }
         }
+
         stage('Push Docker Image') {
             steps {
                 echo 'Pushing Docker image...'
