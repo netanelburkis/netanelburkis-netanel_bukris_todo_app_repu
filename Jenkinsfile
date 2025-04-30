@@ -6,25 +6,39 @@ pipeline {
         email = 'netanel.nisim.bukris@gmail.com'
     }
     stages {
-        stage('Build docker image') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Building docker image...'
+                echo 'Building Docker image...'
                 sh '''
-                    docker build -t myapp ./app
+                    docker build --no-cache -t myapp ./app
                     docker tag myapp ${IMAGE_NAME}:${VERSION}
                     docker tag myapp ${IMAGE_NAME}:latest
                 '''
             }
         }
-        stage('Run up with Docker compose') {
+
+        stage('Verify Image Exists') {
             steps {
-                echo 'Running Docker compose up...'
+                echo 'Verifying Docker image exists...'
+                sh """
+                    if ! docker images | grep ${IMAGE_NAME}; then
+                        echo "ERROR: Docker image '${IMAGE_NAME}' not found!"
+                        exit 1
+                    fi
+                """
+            }
+        }
+
+        stage('Run up with Docker Compose') {
+            steps {
+                echo 'Running Docker Compose up...'
                 sh '''
                     docker compose down || true
                     docker compose up -d 
                 '''    
             }
         }
+
         stage('Run Tests') {
             steps {
                 sh '''
@@ -55,6 +69,7 @@ pipeline {
             }
         }
     }
+
     post {
         failure {
             slackSend(
@@ -69,6 +84,7 @@ pipeline {
                 body: "${JOB_NAME}.${BUILD_NUMBER} FAILED"
             )
         }
+
         success {
             slackSend(
                 channel: '#jenkins',
@@ -82,9 +98,11 @@ pipeline {
                 body: "${JOB_NAME}.${BUILD_NUMBER} PASSED"
             )
         }
+
         always {
             sh '''
                 docker compose down || true
+                docker rmi myapp || true
             '''
         }
     }
