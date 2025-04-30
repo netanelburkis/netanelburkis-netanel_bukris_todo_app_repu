@@ -14,9 +14,6 @@ systemctl start docker
 # Add default user to Docker group
 usermod -aG docker ec2-user
 
-# Apply group changes immediately
-newgrp docker
-
 # Install Docker Compose v2 (as a CLI plugin)
 mkdir -p /usr/local/lib/docker/cli-plugins
 
