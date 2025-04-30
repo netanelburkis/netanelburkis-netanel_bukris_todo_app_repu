@@ -27,16 +27,14 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                echo 'Running tests...'
                 sh '''
-                    python3 -m venv .venv && \
-                    . .venv/bin/activate && \
-                    python3 -m ensurepip --upgrade && \  
-                    pip install -r tests/requirements.txt && \
+                    python3 -m venv .venv
+                    . .venv/bin/activate
+                    pip install -r tests/requirements.txt
                     pytest ./tests
                 '''
             }
-        }    
+        }
         stage('Push Docker Image') {
             steps {
                 echo 'Pushing Docker image...'
