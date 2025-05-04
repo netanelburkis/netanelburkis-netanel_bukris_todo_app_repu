@@ -33,6 +33,25 @@ pipeline {
             }
         }
 
+        stage('Test Docker Image Run') {
+            steps {
+                echo 'Testing if Docker container runs correctly from image...'
+                sh """
+                    set -e
+                    CONTAINER_ID=\$(docker run -d --name myapp -e DB_NAME=todo -e DB_USER=myuser -e DB_PASSWORD=pass -e DB_HOST=${DB_HOST} -p 5000:5000 ${IMAGE_NAME}:${VERSION})
+                    sleep 5
+                    if ! docker ps | grep \$CONTAINER_ID; then
+                        echo "ERROR: Container failed to start!"
+                        docker logs \$CONTAINER_ID || true
+                        docker rm -f \$CONTAINER_ID || true
+                        exit 1
+                    fi
+                    echo "Container is running successfully."
+                    docker rm -f \$CONTAINER_ID
+                """
+            }
+        }
+
         stage('Run up with Docker Compose') {
             steps {
                 echo 'Running Docker Compose up...'
