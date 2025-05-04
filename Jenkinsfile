@@ -77,6 +77,8 @@ pipeline {
 
         stage('Deploy to Production') {
             steps {
+                    // Requires "SSH Agent" plugin in Jenkins:
+                    // Manage Jenkins → Plugin Manager → Install "SSH Agent"
                     sshagent (credentials: ['ubuntu-frankfurt']) {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "
