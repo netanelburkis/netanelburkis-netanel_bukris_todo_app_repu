@@ -44,7 +44,7 @@ pipeline {
                         echo "ERROR: Container failed to start!"
                         docker logs \$CONTAINER_ID
                         docker logs \$CONTAINER_ID || true
-                        docker rm -f \$CONTAINER_ID || true
+                        
                         exit 1
                     fi
                     echo "Container is running successfully."
