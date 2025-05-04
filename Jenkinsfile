@@ -80,6 +80,10 @@ pipeline {
                     // Requires "SSH Agent" plugin in Jenkins:
                     // Manage Jenkins → Plugin Manager → Install "SSH Agent"
                     echo 'Deploying to production...'
+                    // Note: Make sure the remote user (ubuntu@...) is in the "docker" group
+                    // Run on remote server: sudo usermod -aG docker ubuntu
+                    // Then reconnect SSH or run: newgrp docker
+                    // Without this, you'll get "permission denied" when running docker
                     sshagent (credentials: ['ubuntu-frankfurt']) {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "
