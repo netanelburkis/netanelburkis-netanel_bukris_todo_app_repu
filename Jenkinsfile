@@ -40,7 +40,7 @@ pipeline {
                 sh """
                     set -e
                     CONTAINER_ID=\$(docker run -d -e DB_NAME=todo -e DB_USER=myuser -e DB_PASSWORD=pass -e DB_HOST=${DB_HOST} -p 5000:5000 ${IMAGE_NAME}:${VERSION})
-                    sleep 10
+                    sleep 20
                     if ! docker ps | grep \$CONTAINER_ID; then
                         echo "ERROR: Container failed to start!"
                         docker logs \$CONTAINER_ID || true
