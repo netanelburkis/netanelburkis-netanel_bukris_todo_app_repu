@@ -4,6 +4,10 @@ pipeline {
         IMAGE_NAME = 'netanelbukris/to_do_list'
         VERSION = "${BUILD_NUMBER}"
         email = 'netanel.nisim.bukris@gmail.com'
+        REMOTE_USER = 'ubuntu'
+        REMOTE_HOST = '172.31.39.147'
+        DB_HOST = '172.31.42.36'
+
     }
     stages {
         stage('Build Docker Image') {
@@ -70,6 +74,20 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to Production') {
+            steps {
+                    sshagent (credentials: ['ubuntu-frankfurt']) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "
+                                docker pull ${IMAGE_NAME}:${VERSION} && \
+                                docker rm -f myapp || true && \
+                                docker run -d --name myapp -e DB_NAME=todo -e DB_USER=myuser -e DB_PASSWORD=pass -e DB_HOST=${DB_HOST} -p 5000:5000 ${IMAGE_NAME}:${VERSION}
+                            "
+                        """ 
+                }                                               
+            }
+        }          
     }
 
     post {
