@@ -35,6 +35,7 @@ pipeline {
 
         stage('Test Docker Image Run') {
             steps {
+                // Make sure port 5000 is open in the security group for internal network access before running the test.
                 echo 'Testing if Docker container runs correctly from image...'
                 sh """
                     set -e
@@ -42,12 +43,20 @@ pipeline {
                     sleep 10
                     if ! docker ps | grep \$CONTAINER_ID; then
                         echo "ERROR: Container failed to start!"
-                        docker logs \$CONTAINER_ID
                         docker logs \$CONTAINER_ID || true
-                        
+                        docker rm -f \$CONTAINER_ID || true
                         exit 1
                     fi
                     echo "Container is running successfully."
+                    
+                    # Test if the web page is accessible via curl
+                    RESPONSE=\$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000)
+                    if [ "\$RESPONSE" -ne 200 ]; then
+                        echo "ERROR: Web page is not accessible. HTTP response code: \$RESPONSE"
+                        exit 1
+                    fi
+                    echo "Web page is accessible with HTTP response code: \$RESPONSE"
+
                     docker rm -f \$CONTAINER_ID
                 """
             }
