@@ -43,6 +43,33 @@ pipeline {
             }
         }
 
+        stage('container check') {
+            steps {
+                echo 'Checking if containers are running...'
+                sh '''
+                    # Check if myapp container (based on image) is running
+                    if ! docker ps | grep "myapp"; then
+                        echo "ERROR: Docker container with image 'myapp' not found!"
+                        exit 1
+                    fi
+
+                    # Check if mysql container (based on image) is running and healthy
+                    if ! docker ps | grep "mysql:8.0" | grep -q "healthy"; then
+                        echo "ERROR: Docker container with image 'mysql:8.0' is not healthy or not running!"
+                        exit 1
+                    fi
+
+                    # Check if nginx container (based on image) is running
+                    if ! docker ps | grep "nginx:latest"; then
+                        echo "ERROR: Docker container with image 'nginx:latest' not found!"
+                        exit 1
+                    fi
+
+                    echo "All containers are running successfully."
+                '''
+            }
+        }
+
         stage('Run Tests') {
             steps {
                 sh '''
