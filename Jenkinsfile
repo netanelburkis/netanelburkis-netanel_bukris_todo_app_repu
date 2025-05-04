@@ -32,33 +32,46 @@ pipeline {
                 """
             }
         }
-
-        stage('Test Docker Image Run') {
+        
+        // Make sure port 5000 is open in the security group for internal network access before running the test.
+        stage('Test Docker Container') {
             steps {
-                // Make sure port 5000 is open in the security group for internal network access before running the test.
-                echo 'Testing if Docker container runs correctly from image...'
-                sh """
+                sh '''
                     set -e
-                    CONTAINER_ID=\$(docker run -d -e DB_NAME=todo -e DB_USER=myuser -e DB_PASSWORD=pass -e DB_HOST=${DB_HOST} -p 5000:5000 ${IMAGE_NAME}:${VERSION})
-                    sleep 20
-                    if ! docker ps | grep \$CONTAINER_ID; then
-                        echo "ERROR: Container failed to start!"
-                        docker logs \$CONTAINER_ID || true
-                        docker rm -f \$CONTAINER_ID || true
-                        exit 1
-                    fi
-                    echo "Container is running successfully."
-                    
-                    # Test if the web page is accessible via curl
-                    RESPONSE=\$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000)
-                    if [ "\$RESPONSE" -ne 200 ]; then
-                        echo "ERROR: Web page is not accessible. HTTP response code: \$RESPONSE"
-                        exit 1
-                    fi
-                    echo "Web page is accessible with HTTP response code: \$RESPONSE"
+                    echo "Running container from image..."
 
-                    docker rm -f \$CONTAINER_ID
-                """
+                    CONTAINER_ID=$(docker run -d \
+                        -e DB_NAME=todo \
+                        -e DB_USER=myuser \
+                        -e DB_PASSWORD=pass \
+                        -e DB_HOST=172.31.42.36 \
+                        -p 5000:5000 \
+                        netanelbukris/to_do_list:12)
+
+                    echo "Waiting for container to start..."
+                    sleep 20
+
+                    echo "Checking if container is running..."
+                    if ! docker inspect -f '{{.State.Running}}' $CONTAINER_ID | grep -q true; then
+                        echo "ERROR: Container is not running!"
+                        EXIT_CODE=$(docker inspect -f '{{.State.ExitCode}}' $CONTAINER_ID)
+                        echo "Exit code: $EXIT_CODE"
+                        docker logs $CONTAINER_ID
+                        docker rm -f $CONTAINER_ID
+                        exit 1
+                    fi
+
+                    echo "Container is running successfully."
+
+                    curl -s -o /dev/null -w "%{http_code}" http://localhost:5000 | grep -q 200 || {
+                        echo "ERROR: App did not respond with 200 OK"
+                        docker logs $CONTAINER_ID
+                        docker rm -f $CONTAINER_ID
+                        exit 1
+                    }
+
+                    docker rm -f $CONTAINER_ID
+                '''
             }
         }
 
