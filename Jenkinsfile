@@ -5,7 +5,7 @@ pipeline {
         VERSION = "${BUILD_NUMBER}"
         email = 'netanel.nisim.bukris@gmail.com'
         REMOTE_USER = 'ubuntu'
-        REMOTE_HOST_STAGE = '172.31.39.147'
+        REMOTE_HOST_STAGE = '172.31.45.253'
         DB_HOST = '172.31.42.36'
 
     }
@@ -148,7 +148,7 @@ pipeline {
             slackSend(
                 channel: '#jenkins',
                 color: 'good',
-                message: "${JOB_NAME}.${BUILD_NUMBER} PASSED"
+                message: "${JOB_NAME}.${BUILD_NUMBER} PASSED, LINK FOR REMOTE HOST STAGE FOR CHECKING: http://stage.netaneltodolist.wuaze.com/"
             )
             emailext(
                 subject: "${JOB_NAME}.${BUILD_NUMBER} PASSED",
