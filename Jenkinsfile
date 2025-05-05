@@ -111,14 +111,16 @@ pipeline {
                     // Run on remote server: sudo usermod -aG docker ubuntu
                     // Then reconnect SSH or run: newgrp docker
                     // Without this, you'll get "permission denied" when running docker
+                    withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     sshagent (credentials: ['ubuntu-frankfurt']) {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "
                                 docker pull ${IMAGE_NAME}:${VERSION} && \
                                 docker rm -f myapp || true && \
-                                docker run -d --name myapp -e DB_NAME=todo -e DB_USER=myuser -e DB_PASSWORD=pass -e DB_HOST=${DB_HOST} -p 5000:5000 ${IMAGE_NAME}:${VERSION}
+                                docker run -d --name myapp -e DB_NAME=todo -e DB_USER=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} -e DB_HOST=${DB_HOST} -p 5000:5000 ${IMAGE_NAME}:${VERSION}
                             "
                         """ 
+                    }    
                 }                                               
             }
         }          
