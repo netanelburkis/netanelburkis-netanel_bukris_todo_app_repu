@@ -148,7 +148,7 @@ pipeline {
             slackSend(
                 channel: '#jenkins',
                 color: 'good',
-                message: "${JOB_NAME}.${BUILD_NUMBER} PASSED, LINK FOR REMOTE HOST STAGE FOR CHECKING: http://stage.netaneltodolist.wuaze.com/"
+                message: "${JOB_NAME}.${BUILD_NUMBER} PASSED, link for remote host stage for checking: http://stage.netaneltodolist.wuaze.com/"
             )
             emailext(
                 subject: "${JOB_NAME}.${BUILD_NUMBER} PASSED",
