@@ -11,6 +11,7 @@ pipeline {
     }
     stages {
         stage('Build Docker Image') {
+            when { not {branch 'main'} }
             steps {
                 echo 'Building Docker image...'
                 sh '''
@@ -22,6 +23,7 @@ pipeline {
         }
 
         stage('Verify Image Exists') {
+            when { not {branch 'main'} }
             steps {
                 echo 'Verifying Docker image exists...'
                 sh """
@@ -34,6 +36,7 @@ pipeline {
         }
         
         stage('Run up with Docker Compose') {
+            when { not {branch 'main'} }
             steps {
                 echo 'Running Docker Compose up...'
                 sh '''
@@ -44,6 +47,7 @@ pipeline {
         }
 
         stage('container check') {
+            when { not {branch 'main'} }
             steps {
                 echo 'Checking if containers are running...'
                 sh '''
@@ -71,6 +75,7 @@ pipeline {
         }
 
         stage('Run Tests') {
+            when { not {branch 'main'} }
             steps {
                 sh '''
                     echo "Creating virtual environment..."
@@ -87,6 +92,7 @@ pipeline {
         }
 
         stage('Push Docker Image') {
+            when { not {branch 'main'} }
             steps {
                 // Requires "Docker Pipeline" plugin in Jenkins:
                 // Manage Jenkins → Plugin Manager → Install "Docker Pipeline"
@@ -103,6 +109,7 @@ pipeline {
         }
 
         stage('Deploy to staging') {
+            when { not {branch 'main'} }
             steps {
                     // Requires "SSH Agent" plugin in Jenkins:
                     // Manage Jenkins → Plugin Manager → Install "SSH Agent"
