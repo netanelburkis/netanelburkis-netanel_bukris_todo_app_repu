@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+   agent any
     environment {
         IMAGE_NAME = 'netanelbukris/to_do_list'
         VERSION = "${BUILD_NUMBER}"
@@ -91,6 +91,22 @@ pipeline {
             }
         }
 
+        // 🔒 Stage to test that credentials are properly masked in Jenkins logs.
+        // Make sure:
+        // 1. "Mask Passwords Plugin" is installed (Manage Jenkins → Plugin Manager).
+        // 2. Jenkins was restarted if the plugin was installed recently.
+        // In the console output, the password should appear as ******** instead of the real value.
+        stage('Test Mask Password') {
+            when { not {branch 'main'} }
+            steps {
+                echo 'Testing Masked Password Output...'
+                withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
+                    echo "🔐 DB Username is: ${DB_USERNAME}"
+                    echo "🔐 DB Password is: ${DB_PASSWORD}"  // This should be masked in the console
+                }
+            }
+        }
+
         stage('Push Docker Image') {
             when { not {branch 'main'} }
             steps {
@@ -173,3 +189,4 @@ pipeline {
         }
     }
 }
+ 
