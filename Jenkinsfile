@@ -93,19 +93,22 @@ pipeline {
 
         // 🔒 Stage to test that credentials are properly masked in Jenkins logs.
         // Make sure:
-        // 1. "Mask Passwords Plugin" is installed (Manage Jenkins → Plugin Manager).
-        // 2. Jenkins was restarted if the plugin was installed recently.
-        // In the console output, the password should appear as ******** instead of the real value.
+        // 1. The "Mask Passwords" plugin is installed (Manage Jenkins → Plugin Manager).
+        // 2. Jenkins was restarted after installing the plugin.
+        // 3. The credentialsId ('DB_PASS') is correctly configured under Jenkins → Credentials.
+        // 4. Passwords are only used or echoed inside withCredentials {} blocks.
+        // 5. In the Console Output, the actual password should appear as ******** (masked), not in plain text.
+        // 6. The password should not be echoed or logged outside the withCredentials {} block.
+        // 7. Avoid printing the password in any post or error section to ensure masking.
         stage('Test Mask Password') {
-            when { not {branch 'main'} }
+            when { not { branch 'main' } }
             steps {
                 echo 'Testing Masked Password Output...'
-                withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
-                    // Do not print DB_PASSWORD directly
-                    echo "🔐 DB Username is: ${DB_USERNAME}"  // Only print the username
-                    // If you need to work with DB_PASSWORD, use it but do not print it
+                withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {                    
+                    sh('echo 🔐 DB Username is: ' + DB_USERNAME)
+                    sh('echo 🔐 DB Password is: ' + DB_PASSWORD)                    
                 }
-                echo 'Masked Password Test Completed.'      
+                echo 'Masked Password Test Completed.'
             }
         }
 
@@ -131,7 +134,7 @@ pipeline {
             steps {
                     // Requires "SSH Agent" plugin in Jenkins:
                     // Manage Jenkins → Plugin Manager → Install "SSH Agent"
-                    echo 'Deploying to production...'
+                    echo 'Deploying to staging...'
                     // Note: Make sure the remote user (ubuntu@...) is in the "docker" group
                     // Run on remote server: sudo usermod -aG docker ubuntu
                     // Then reconnect SSH or run: newgrp docker
@@ -139,13 +142,16 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     sshagent (credentials: ['ubuntu-frankfurt']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \
-                            "docker pull ${IMAGE_NAME}:${VERSION} && \
-                            docker rm -f myapp || true && \
-                            docker run -d --name myapp \
-                            -e DB_NAME=todo -e DB_USER=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} -e DB_HOST=${DB_HOST} \
+                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \\
+                            "docker pull ${IMAGE_NAME}:${VERSION} && \\
+                            docker rm -f myapp || true && \\
+                            docker run -d --name myapp \\
+                            -e DB_NAME=todo \\
+                            -e DB_USER=${DB_USERNAME} \\
+                            -e DB_PASSWORD=\\\${DB_PASSWORD} \\
+                            -e DB_HOST=${DB_HOST} \\
                             -p 5000:5000 ${IMAGE_NAME}:${VERSION}"
-                        """ 
+                        """
                     }    
                 }                                               
             }
