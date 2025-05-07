@@ -134,7 +134,7 @@ pipeline {
             steps {
                     // Requires "SSH Agent" plugin in Jenkins:
                     // Manage Jenkins → Plugin Manager → Install "SSH Agent"
-                    echo 'Deploying to production...'
+                    echo 'Deploying to staging...'
                     // Note: Make sure the remote user (ubuntu@...) is in the "docker" group
                     // Run on remote server: sudo usermod -aG docker ubuntu
                     // Then reconnect SSH or run: newgrp docker
@@ -142,13 +142,16 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     sshagent (credentials: ['ubuntu-frankfurt']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \
-                            "docker pull ${IMAGE_NAME}:${VERSION} && \
-                            docker rm -f myapp || true && \
-                            docker run -d --name myapp \
-                            -e DB_NAME=todo -e DB_USER=${DB_USERNAME} -e DB_PASSWORD=${DB_PASSWORD} -e DB_HOST=${DB_HOST} \
+                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \\
+                            "docker pull ${IMAGE_NAME}:${VERSION} && \\
+                            docker rm -f myapp || true && \\
+                            docker run -d --name myapp \\
+                            -e DB_NAME=todo \\
+                            -e DB_USER=${DB_USERNAME} \\
+                            -e DB_PASSWORD=\\\${DB_PASSWORD} \\
+                            -e DB_HOST=${DB_HOST} \\
                             -p 5000:5000 ${IMAGE_NAME}:${VERSION}"
-                        """ 
+                        """
                     }    
                 }                                               
             }
