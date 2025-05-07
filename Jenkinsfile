@@ -105,8 +105,8 @@ pipeline {
             steps {
                 echo 'Testing Masked Password Output...'
                 withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {                    
-                    sh("echo 🔐 DB Username is: ${DB_USERNAME}")
-                    sh ("echo 🔐 DB Password is: ${DB_PASSWORD}")                    
+                    sh('echo 🔐 DB Username is: ' + DB_USERNAME)
+                    sh('echo 🔐 DB Password is: ' + DB_PASSWORD)                    
                 }
                 echo 'Masked Password Test Completed.'
             }
