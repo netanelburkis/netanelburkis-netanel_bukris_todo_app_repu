@@ -101,9 +101,11 @@ pipeline {
             steps {
                 echo 'Testing Masked Password Output...'
                 withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
-                    echo "🔐 DB Username is: ${DB_USERNAME}"
-                    echo "🔐 DB Password is: ${DB_PASSWORD}"  // This should be masked in the console
+                    // Do not print DB_PASSWORD directly
+                    echo "🔐 DB Username is: ${DB_USERNAME}"  // Only print the username
+                    // If you need to work with DB_PASSWORD, use it but do not print it
                 }
+                echo 'Masked Password Test Completed.'      
             }
         }
 
