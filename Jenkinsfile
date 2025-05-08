@@ -158,39 +158,33 @@ pipeline {
         }  
 
         stage('Create PR to main') {
-            when { not { branch 'main' } }
+            when { not {branch 'main'} }
             steps {
-                echo 'Creating Pull Request to main...'
-                withCredentials([string(credentialsId: 'github-token-for-jenkinsfile', variable: 'GITHUB_TOKEN')]) {
+                echo 'Creating PR to main...'
+                withCredentials([string(credentialsId: 'github', variable: 'GH_TOKEN')]) {
                     script {
-                        // Define PR title and body
-                        def prTitle = "Merge ${BRANCH_NAME} into main ${VERSION}"
-                        def prBody = "This Pull Request merges changes from ${BRANCH_NAME} into main. http://stage.netaneltodolist.wuaze.com/"
-                        def prUrl = "https://api.github.com/repos/netanelburkis/netanelburkis-netanel_bukris_todo_app_repu/pulls"
-
-                        // Create a valid JSON object for the GitHub API request
-                        def json = groovy.json.JsonOutput.toJson([
-                            title: prTitle,
-                            head: BRANCH_NAME,
-                            base: 'main',
-                            body: prBody
-                        ])
-
-                        // Send the Pull Request using curl
-                        sh(script: """curl -L -X POST \\
-                        -H 'Authorization: Bearer \$GITHUB_TOKEN' \\
-                        -H 'Accept: application/vnd.github+json' \\
-                        -H 'X-GitHub-Api-Version: 2022-11-28' \\
-                        -d '${json}' \\
-                        ${prUrl}""", returnStdout: true)
-
-                        echo "Pull Request created successfully."
+                        def prTitle = "Merge ${BRANCH_NAME} into main @${VERSION}"
+                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main. http://stage.yp3yp3.online/"
+                        def prUrl = "https://api.github.com/repos/yp3yp3/Todo_list/pulls"
+                        sh """
+                            curl -X POST \
+                            -H "Authorization: token \${GH_TOKEN}" \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            -d '{ \
+                            \"title\": \"${prTitle}\", \
+                            \"head\": \"${BRANCH_NAME}\", \
+                            \"base\": \"main\", \
+                            \"body\": \"${prBody}\" \
+                            }' \
+                            ${prUrl}
+                        """
+                        echo "Pull request created successfully."
                     }
                 }
             }
         }
     }
-    
+
     post {
         // Requires "Slack Notification" plugin in Jenkins:
         // Manage Jenkins → Plugin Manager → Install "Slack Notification"
