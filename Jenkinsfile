@@ -6,6 +6,7 @@ pipeline {
         email = 'netanel.nisim.bukris@gmail.com'
         REMOTE_USER = 'ubuntu'
         REMOTE_HOST_STAGE = '172.31.45.253'
+        REMOTE_HOST_PRODUCTION = '172.31.39.147'
         DB_HOST = '172.31.42.36'
 
     }
@@ -129,12 +130,12 @@ pipeline {
             }
         }
 
-        stage('Deploy to staging') {
+        stage('Update stage version') {
             when { not {branch 'main'} }
             steps {
                     // Requires "SSH Agent" plugin in Jenkins:
                     // Manage Jenkins → Plugin Manager → Install "SSH Agent"
-                    echo 'Deploying to staging...'
+                    echo 'Updating stage version...'
                     // Note: Make sure the remote user (ubuntu@...) is in the "docker" group
                     // Run on remote server: sudo usermod -aG docker ubuntu
                     // Then reconnect SSH or run: newgrp docker
@@ -148,7 +149,7 @@ pipeline {
                             docker run -d --name myapp \\
                             -e DB_NAME=todo \\
                             -e DB_USER=${DB_USERNAME} \\
-                            -e DB_PASSWORD=\\\${DB_PASSWORD} \\
+                            -e DB_PASSWORD=\\${DB_PASSWORD} \\
                             -e DB_HOST=${DB_HOST} \\
                             -p 5000:5000 ${IMAGE_NAME}:${VERSION}"
                         """
