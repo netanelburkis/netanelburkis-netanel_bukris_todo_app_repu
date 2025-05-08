@@ -161,7 +161,7 @@ pipeline {
             when { not {branch 'main'} }
             steps {
                 echo 'Creating PR to main...'
-                withCredentials([string(credentialsId: 'github', variable: 'GH_TOKEN')]) {
+                withCredentials([string(credentialsId: 'github-token-for-jenkinsfile', variable: 'GH_TOKEN')]) {
                     script {
                         def prTitle = "Merge ${BRANCH_NAME} into main @${VERSION}"
                         def prBody = "This PR merges changes from ${BRANCH_NAME} into main. http://stage.yp3yp3.online/"
