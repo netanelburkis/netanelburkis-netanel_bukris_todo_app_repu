@@ -164,7 +164,11 @@ pipeline {
                 withCredentials([string(credentialsId: 'github-token-for-jenkinsfile', variable: 'GH_TOKEN')]) {
                     script {
                         def prTitle = "Merge ${BRANCH_NAME} into main @${VERSION}"
-                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main. http://stage.yp3yp3.online/"
+                        def prBody = """
+                            This PR merges the latest changes from the ${BRANCH_NAME} branch into the 'main' branch.
+                            You can preview the deployed staging version here: http://stage.netaneltodolist.wuaze.com/
+                        """.stripIndent().replaceAll("\n", "\\\\n")
+
                         def prUrl = "https://api.github.com/repos/yp3yp3/Todo_list/pulls"
                         sh """
                             curl -X POST \
