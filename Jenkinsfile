@@ -130,12 +130,12 @@ pipeline {
             }
         }
 
-        stage('Update stage version') {
+        stage('Deploy to staging') {
             when { not {branch 'main'} }
             steps {
                     // Requires "SSH Agent" plugin in Jenkins:
                     // Manage Jenkins → Plugin Manager → Install "SSH Agent"
-                    echo 'Updating stage version...'
+                    echo 'Deploy to staging...'
                     // Note: Make sure the remote user (ubuntu@...) is in the "docker" group
                     // Run on remote server: sudo usermod -aG docker ubuntu
                     // Then reconnect SSH or run: newgrp docker
