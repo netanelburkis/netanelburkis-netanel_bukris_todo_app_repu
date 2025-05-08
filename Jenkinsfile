@@ -149,7 +149,7 @@ pipeline {
                             docker run -d --name myapp \\
                             -e DB_NAME=todo \\
                             -e DB_USER=${DB_USERNAME} \\
-                            -e DB_PASSWORD=\\\${DB_PASSWORD} \\
+                            -e DB_PASSWORD=\\${DB_PASSWORD} \\
                             -e DB_HOST=${DB_HOST} \\
                             -p 5000:5000 ${IMAGE_NAME}:${VERSION}"
                         """
