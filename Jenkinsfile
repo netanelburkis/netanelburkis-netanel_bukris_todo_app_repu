@@ -169,7 +169,7 @@ pipeline {
                             You can preview the deployed staging version here: http://stage.netaneltodolist.wuaze.com/
                         """.stripIndent().replaceAll("\n", "\\\\n")
 
-                        def prUrl = "https://api.github.com/repos/yp3yp3/Todo_list/pulls"
+                        def prUrl = "https://api.github.com/repos/netanelburkis/netanelburkis-netanel_bukris_todo_app_repu/pulls"
                         sh """
                             curl -X POST \
                             -H "Authorization: token \${GH_TOKEN}" \
