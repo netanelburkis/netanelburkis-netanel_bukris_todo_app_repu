@@ -154,8 +154,37 @@ pipeline {
                         """
                     }    
                 }                                               
+            }    
+        }  
+
+        stage('Create PR to main') {
+            when {not {branch 'main'} }
+            steps {
+                echo 'Creating PR to main...'
+                withCredentials([string(credentialsId: 'github-token-for-jenkinsfile', variable:'GITHUB_TOKEN')]) {
+                    script {
+                        def prTitle = "Merge ${BRANCH_NAME} into main ${VERSION}"
+                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main."    
+                        def prUrl = "https://api.github.com/repos/netanelbukris/to_do_list/pulls"
+                        def json = """
+                        {
+                            "title": "${prTitle}",
+                            "head": "${BRANCH_NAME}",
+                            "base": "main",
+                            "body": "${prBody}"
+                        }
+                        """
+                        sh """
+                            curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" \\
+                            -H "Accept: application/vnd.github.v3+json" \\
+                            -d '${json}' \\
+                            ${prUrl}
+                        """
+                        echo "Pull request created successfully."
+                    }
+                }
             }
-        }          
+        }
     }
 
     post {
