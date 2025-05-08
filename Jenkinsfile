@@ -164,8 +164,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'github-token-for-jenkinsfile', variable:'GITHUB_TOKEN')]) {
                     script {
                         def prTitle = "Merge ${BRANCH_NAME} into main ${VERSION}"
-                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main."    
-                        def prUrl = "https://api.github.com/repos/netanelbukris/to_do_list/pulls"
+                        def prBody = "This PR merges changes from ${BRANCH_NAME} into main. http://stage.netaneltodolist.wuaze.com/"    
+                        def prUrl = "https://api.github.com/repos/netanelburkis/netanelburkis-netanel_bukris_todo_app_repu/pulls"
                         def json = """
                         {
                             "title": "${prTitle}",
@@ -174,12 +174,7 @@ pipeline {
                             "body": "${prBody}"
                         }
                         """
-                        sh """
-                            curl -X POST -H "Authorization: token ${GITHUB_TOKEN}" \\
-                            -H "Accept: application/vnd.github.v3+json" \\
-                            -d '${json}' \\
-                            ${prUrl}
-                        """
+                        sh(script: "curl -X POST -H 'Authorization: token \$GITHUB_TOKEN' -H 'Accept: application/vnd.github.v3+json' -d '${json}' ${prUrl}", returnStdout: true)
                         echo "Pull request created successfully."
                     }
                 }
