@@ -178,7 +178,6 @@ pipeline {
                             }' \
                             ${prUrl}
                         """
-                        echo "Pull request created successfully."
                     }
                 }
             }
