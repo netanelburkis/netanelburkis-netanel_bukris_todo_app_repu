@@ -34,4 +34,4 @@ upstream flask_backend {
     }
 EOF
 
-docker run -d -p 80:80 -v /home/ubuntu/nginx.conf:/etc/nginx/templates/default.conf.template nginx
+docker run --restart unless-stopped -d -p 80:80 -v /home/ubuntu/nginx.conf:/etc/nginx/templates/default.conf.template nginx
