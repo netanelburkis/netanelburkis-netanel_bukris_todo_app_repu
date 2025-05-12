@@ -48,14 +48,8 @@ Todo_list/
 │   ├── requirements.txt     # Dependencies for test environment
 │   └── test_selenium_in_parts.py     # Selenium test script for app
 ├── docker-compose.yaml    # Docker Compose configuration
-├── nginx/                 # Nginx reverse proxy configuration
+└── nginx/                 # Nginx reverse proxy configuration
     └── default.conf       # Nginx configuration file
-└── user_data #Startup scripts for EC2 services: Jenkins, NGINX, MySQL, and more
-    ├── user_data_app.sh  #Script to set up and run the main application on an EC2 instance
-    ├── user_data_jenkins_agent.sh  #Script to configure and set up the Jenkins agent on the EC2 instance.
-    ├── user_data_jenkins_server.sh #Script to set up the Jenkins server on an EC2 instance, including Java, Jenkins, Docker, and required dependencies.
-    ├── user_data_mysql.sh  #Script to set up MySQL database server on an EC2 instance, including installation and configuration for use in applications.
-    └── user_data_nginx.sh  #Script to set up and configure an Nginx web server on an EC2 instance for serving web applications.
 ```
 
 ## *Installation* 🔧
