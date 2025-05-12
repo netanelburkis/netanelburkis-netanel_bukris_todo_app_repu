@@ -103,7 +103,6 @@ pipeline {
         // 6. The password should not be echoed or logged outside the withCredentials {} block.
         // 7. Avoid printing the password in any post or error section to ensure masking.
         stage('Test Mask Password') {
-            when { not { branch 'main' } }
             steps {
                 echo 'Testing Masked Password Output...'
                 withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {                    
@@ -139,6 +138,7 @@ pipeline {
                     script {
                         // Clone the GitOps repository
                         sh """
+                            rm -rf gitops || true
                             git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
                             cd gitops
                             echo "${VERSION}" > stage_version.txt
