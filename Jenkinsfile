@@ -137,6 +137,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Branch_Sources_GitHub_Credentials', passwordVariable: 'GH_PASSWORD', usernameVariable: 'GH_USERNAME')]) {
                     script {
                         // Clone the GitOps repository
+                        // Update the stage_version.txt file with the new version
+                        // Commit and push the changes
+                        // The GitOps repository is assumed to be a separate repository that manages the deployment of the application.
                         sh """
                             rm -rf gitops 
                             git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
@@ -201,6 +204,9 @@ pipeline {
 
                 withCredentials([usernamePassword(credentialsId: 'Branch_Sources_GitHub_Credentials', passwordVariable: 'GH_PASSWORD', usernameVariable: 'GH_USERNAME')]) {
                     sshagent (credentials: ['ubuntu-frankfurt']) {
+                        // Clone the GitOps repository
+                        // Update the production_version.txt file with the new version
+                        // Commit and push the changes
                         sh """
                             rm -rf gitops
                             git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
