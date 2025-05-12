@@ -146,7 +146,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \\
                             "docker pull ${IMAGE_NAME}:${VERSION} && \\
                             docker rm -f myapp || true && \\
-                            docker run -d --name myapp \\
+                            docker run -d --name myapp --restart unless-stopped \\
                             -e DB_NAME=todo \\
                             -e DB_USER=${DB_USERNAME} \\
                             -e DB_PASSWORD=\${DB_PASSWORD} \\
@@ -184,31 +184,45 @@ pipeline {
             }
         }
 
-        stage('deploy to production'){
+        stage('deploy to production') { 
             when { branch 'main' }
             steps {
                 echo 'Deploying to production...'
+                // Extract version number from the latest Git commit message
+                // The commit message should include a version number in the format @<number>
+                script {
+                    def version = sh(
+                        script: "git log -1 --pretty=%B | grep -oE '@[0-9]+' | tr -d '@'",
+                        returnStdout: true
+                    ).trim()
+                    
+                    if (!version) {
+                        error("❌ ERROR: No version number found in commit message. Make sure it includes @<number>.")
+                    }
+
+                    env.NEW_VERSION = version
+                    echo "📦 Extracted version from commit: ${env.NEW_VERSION}"
+                }
+
                 withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
                     sshagent (credentials: ['ubuntu-frankfurt']) {
                         sh """
-                            NEW_VERSION=\$(git log -1 --pretty=%B | grep -oe '@[0-9]+' | tr -d '@')
-                            echo "New version is: \${NEW_VERSION}"
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_PRODUCTION} \\
                             "docker pull ${IMAGE_NAME}:${NEW_VERSION} && \\
                             docker rm -f myapp || true && \\
-                            docker run -d --name myapp \\
+                            docker run -d --name myapp --restart unless-stopped \\
                             -e DB_NAME=todo \\
                             -e DB_USER=${DB_USERNAME} \\
                             -e DB_PASSWORD=\${DB_PASSWORD} \\
                             -e DB_HOST=${DB_HOST} \\
-                            -p 5000:5000 ${IMAGE_NAME}:\$NEW_VERSION"
+                            -p 5000:5000 ${IMAGE_NAME}:${NEW_VERSION}"
                         """
-                    }    
+                    }
                 }                                               
             }    
         }
     }
-
+    
     post {
         // Requires "Slack Notification" plugin in Jenkins:
         // Manage Jenkins → Plugin Manager → Install "Slack Notification"
