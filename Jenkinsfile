@@ -1,4 +1,5 @@
 pipeline {
+    
    agent any
     environment {
         IMAGE_NAME = 'netanelbukris/to_do_list'
@@ -12,6 +13,7 @@ pipeline {
     }
 
     stages {
+
         stage('Build Docker Image') {
             when { not {branch 'main'} }
             steps {
