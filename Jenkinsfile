@@ -8,6 +8,7 @@ pipeline {
         REMOTE_HOST_STAGE = '172.31.45.253'
         REMOTE_HOST_PRODUCTION = '172.31.39.147'
         DB_HOST = '172.31.42.36'
+        GITOPS_REPO = "netanelburkis/todo_list-cd"
 
     }
     stages {
@@ -130,33 +131,27 @@ pipeline {
             }
         }
 
-        stage('Deploy to staging') {
+        stage('Update stage version') {
             when { not {branch 'main'} }
             steps {
-                    // Requires "SSH Agent" plugin in Jenkins:
-                    // Manage Jenkins → Plugin Manager → Install "SSH Agent"
-                    echo 'Deploy to staging...'
-                    // Note: Make sure the remote user (ubuntu@...) is in the "docker" group
-                    // Run on remote server: sudo usermod -aG docker ubuntu
-                    // Then reconnect SSH or run: newgrp docker
-                    // Without this, you'll get "permission denied" when running docker
-                    withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
-                    sshagent (credentials: ['ubuntu-frankfurt']) {
+                echo 'Updating stage version...'
+                withCredentials([usernamePassword(credentialsId: 'Branch_Sources_GitHub_Credentials', passwordVariable: 'GH_PASSWORD', usernameVariable: 'GH_USERNAME')]) {
+                    script {
+                        // Clone the GitOps repository
                         sh """
-                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_STAGE} \\
-                            "docker pull ${IMAGE_NAME}:${VERSION} && \\
-                            docker rm -f myapp || true && \\
-                            docker run -d --name myapp --restart unless-stopped \\
-                            -e DB_NAME=todo \\
-                            -e DB_USER=${DB_USERNAME} \\
-                            -e DB_PASSWORD=\${DB_PASSWORD} \\
-                            -e DB_HOST=${DB_HOST} \\
-                            -p 5000:5000 ${IMAGE_NAME}:${VERSION}"
-                        """
-                    }    
+                            git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
+                            cd gitops
+                            echo "${VERSION}" > stage_version.txt
+                            git config user.name "${GH_USERNAME}"
+                            git config user.email "${email}"
+                            git add stage_version.txt
+                            git commit -m "Update stage version to ${VERSION}"
+                            git push origin main
+                        """   
+                    }
                 }                                               
             }    
-        }  
+        }
 
         stage('Create PR to main') {
             when { not {branch 'main'} }
