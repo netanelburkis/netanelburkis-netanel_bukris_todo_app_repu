@@ -9,8 +9,8 @@ pipeline {
         REMOTE_HOST_PRODUCTION = '172.31.39.147'
         DB_HOST = '172.31.42.36'
         GITOPS_REPO = "netanelburkis/todo_list-cd"
-
     }
+
     stages {
         stage('Build Docker Image') {
             when { not {branch 'main'} }
@@ -97,18 +97,17 @@ pipeline {
         // Make sure:
         // 1. The "Mask Passwords" plugin is installed (Manage Jenkins → Plugin Manager).
         // 2. Jenkins was restarted after installing the plugin.
-        // 3. The credentialsId ('DB_PASS') is correctly configured under Jenkins → Credentials.
+        // 3. The credentialsId ('TEST_MASK_PASSWORD') is correctly configured under Jenkins → Credentials.
         // 4. Passwords are only used or echoed inside withCredentials {} blocks.
         // 5. In the Console Output, the actual password should appear as ******** (masked), not in plain text.
         // 6. The password should not be echoed or logged outside the withCredentials {} block.
         // 7. Avoid printing the password in any post or error section to ensure masking.
         stage('Test Mask Password') {
-            when { not { branch 'main' } }
             steps {
                 echo 'Testing Masked Password Output...'
-                withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {                    
-                    sh('echo 🔐 DB Username is: ' + DB_USERNAME)
-                    sh('echo 🔐 DB Password is: ' + DB_PASSWORD)                    
+                withCredentials([usernamePassword(credentialsId: 'TEST_MASK_PASSWORD', passwordVariable: 'TEST_PASS_PASSWORD', usernameVariable: 'TEST_PASS_USERNAME')]) {                    
+                    sh('echo 🔐 TEST MASCK PASS Username is: ' + TEST_PASS_USERNAME)
+                    sh('echo 🔐 TEST MASCK PASS Password is: ' + TEST_PASS_PASSWORD)                    
                 }
                 echo 'Masked Password Test Completed.'
             }
@@ -139,6 +138,7 @@ pipeline {
                     script {
                         // Clone the GitOps repository
                         sh """
+                            rm -rf gitops || true
                             git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
                             cd gitops
                             echo "${VERSION}" > stage_version.txt
