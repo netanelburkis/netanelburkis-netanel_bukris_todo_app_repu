@@ -142,7 +142,7 @@ pipeline {
                             git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
                             cd gitops
                             echo "${VERSION}" > stage_version.txt
-                            git config user.name "${GH_USERNAME}"
+                            git config user.name "jenkins"
                             git config user.email "${email}"
                             git add stage_version.txt
                             git commit -m "Update stage version to ${VERSION}"
