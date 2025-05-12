@@ -131,9 +131,6 @@ pipeline {
         }
 
         stage('Update stage version') {
-            // This stage will only run if the changeset includes the stage_version.txt file.
-            // This is useful for ensuring that the staging deployment is only triggered when the version file is updated.
-            when { changeset "stage_version.txt" }
             when { not {branch 'main'} }
             steps {
                 echo 'Updating stage version...'
@@ -183,9 +180,6 @@ pipeline {
         }
 
         stage('update production version') {
-            // This stage will only run if the changeset includes the production_version.txt file.
-            // This is useful for ensuring that the production deployment is only triggered when the version file is updated.
-            when { changeset "production_version.txt" } 
             when { branch 'main' }
             steps {
                 echo 'updating production version...'
