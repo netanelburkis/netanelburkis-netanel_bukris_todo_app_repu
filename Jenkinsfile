@@ -131,6 +131,9 @@ pipeline {
         }
 
         stage('Update stage version') {
+            // This stage will only run if the changeset includes the stage_version.txt file.
+            // This is useful for ensuring that the staging deployment is only triggered when the version file is updated.
+            when { changeset "stage_version.txt" }
             when { not {branch 'main'} }
             steps {
                 echo 'Updating stage version...'
@@ -138,7 +141,7 @@ pipeline {
                     script {
                         // Clone the GitOps repository
                         sh """
-                            rm -rf gitops || true
+                            rm -rf gitops 
                             git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
                             cd gitops
                             echo "${VERSION}" > stage_version.txt
@@ -179,10 +182,13 @@ pipeline {
             }
         }
 
-        stage('deploy to production') { 
+        stage('update production version') {
+            // This stage will only run if the changeset includes the production_version.txt file.
+            // This is useful for ensuring that the production deployment is only triggered when the version file is updated.
+            when { changeset "production_version.txt" } 
             when { branch 'main' }
             steps {
-                echo 'Deploying to production...'
+                echo 'updating production version...'
                 // Extract version number from the latest Git commit message
                 // The commit message should include a version number in the format @<number>
                 script {
@@ -199,18 +205,18 @@ pipeline {
                     echo "📦 Extracted version from commit: ${env.NEW_VERSION}"
                 }
 
-                withCredentials([usernamePassword(credentialsId: 'DB_PASS', passwordVariable: 'DB_PASSWORD', usernameVariable: 'DB_USERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'Branch_Sources_GitHub_Credentials', passwordVariable: 'GH_PASSWORD', usernameVariable: 'GH_USERNAME')]) {
                     sshagent (credentials: ['ubuntu-frankfurt']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST_PRODUCTION} \\
-                            "docker pull ${IMAGE_NAME}:${NEW_VERSION} && \\
-                            docker rm -f myapp || true && \\
-                            docker run -d --name myapp --restart unless-stopped \\
-                            -e DB_NAME=todo \\
-                            -e DB_USER=${DB_USERNAME} \\
-                            -e DB_PASSWORD=\${DB_PASSWORD} \\
-                            -e DB_HOST=${DB_HOST} \\
-                            -p 5000:5000 ${IMAGE_NAME}:${NEW_VERSION}"
+                            rm -rf gitops
+                            git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
+                            cd gitops
+                            echo "${NEW_VERSION}" > production_version.txt
+                            git config user.name "jenkins"
+                            git config user.email "${email}"
+                            git add production_version.txt
+                            git commit -m "Update production version to ${NEW_VERSION}"
+                            git push origin main   
                         """
                     }
                 }                                               
