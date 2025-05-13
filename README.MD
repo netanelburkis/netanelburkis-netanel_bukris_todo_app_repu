@@ -103,13 +103,13 @@ All CI/CD-related files are located in a dedicated **configuration repository** 
 
 🔗 [CI/CD Configuration Repository](https://github.com/netanelburkis/todo_list-cd.git)
 
-**Included there:**
+**Included in the CI/CD Configuration Repository:**
 - `Jenkinsfile` (Pipeline as Code)
 - `docker-compose.staging.yaml` / `docker-compose.prod.yaml`
-- **Nginx** configuration files
-- Environment variable `.env` templates
-- Deployment and rollback scripts
-- Secrets management templates (e.g., using `.env`, **AWS Secrets Manager**, **Vault**)
+- **Application Setup** (Nginx, MySQL, Flask)
+- **Versioning and Tag Management**
+- **Deployment and Rollback Scripts**
+- **Secrets management templates** (e.g., using `.env`, **AWS Secrets Manager**, **Vault**)
 
 ---
 
