@@ -54,6 +54,13 @@ Todo_list/
 └── Jenkinsfile             # Jenkins pipeline configuration
 ```
 
+## **CI/CD Pipeline**⚙
+The project includes a Jenkinsfile for automating the build, test, and deployment processes using Jenkins. The pipeline is responsible for running unit tests with Pytest, measuring code coverage, building Docker images, and deploying the application in a consistent and repeatable manner.
+
+All CI/CD configuration files, including the Jenkins pipeline and related Docker/Nginx settings, can be found in the following repository:
+
+🔗 CI/CD Configuration Repo: https://github.com/netanelburkis/todo_list-cd.git.
+
 ## *Installation* 🔧
 
 *Clone the repository*:   
@@ -406,13 +413,6 @@ This will give you a visual representation of your test coverage.
 * `tests/`: Contains test files for the application, including Selenium-based browser tests.
    * `test_selenium_in_parts.py`: Selenium test script for app functionality.
    * `requirements.txt`: Dependencies for test environment.
-
-## **CI/CD Pipeline**⚙
-The project includes a Jenkinsfile for automating the build, test, and deployment processes using Jenkins. The pipeline is responsible for running unit tests with Pytest, measuring code coverage, building Docker images, and deploying the application in a consistent and repeatable manner.
-
-All CI/CD configuration files, including the Jenkins pipeline and related Docker/Nginx settings, can be found in the following repository:
-
-🔗 CI/CD Configuration Repo: https://github.com/netanelburkis/todo_list-cd.git.
 
 ## **Usage**🚀
 
