@@ -55,17 +55,71 @@ Todo_list/
 ```
 
 ## **CI/CD Pipeline**⚙
-The project includes a `Jenkinsfile` to automate the entire build, test, and deployment process using **Jenkins**.  
-The pipeline performs the following steps:
-- Run unit tests with **Pytest**
-- Run end-to-end tests with **Selenium**
-- Build a Docker image of the app
-- Deploy to two separate environments:
-  - **staging**: for testing and validation
-  - **production (Release Final)**: production-ready deployment
+## 🛠️ CI/CD Pipeline Overview
 
-All CI/CD configuration files (including Jenkins, Nginx, Docker, and deployment scripts) are stored in a separate repository:  
+This project uses a **Jenkins pipeline** (defined in the `Jenkinsfile`) to fully automate the build, test, and deployment process using Jenkins.
+
+---
+
+### 🔄 Pipeline Stages
+
+#### 1. 🧰 Install Dependencies
+Installs Python packages and Selenium WebDriver dependencies.
+
+#### 2. 🧪 Run Unit Tests
+Executes unit tests using **Pytest** to validate core functionality.
+
+#### 3. 🎯 Run End-to-End (E2E) Tests
+Uses **Selenium** to simulate user interactions and verify the app’s behavior in a browser environment.
+
+#### 4. 🐳 Build Docker Image
+Creates a Docker image using the `Dockerfile`, tagged with the build number and Git commit hash.
+
+#### 5. 📤 Push Docker Image to Registry
+Pushes the image to **DockerHub** (or your private registry) for versioned deployment.
+
+#### 6. 🚧 Deploy to Staging Environment
+- Spins up a container using `docker-compose.staging.yaml`  
+- Used for validation, manual testing, and QA checks
+
+#### 7. ⏸️ Manual Approval Step (Optional)
+- Pauses the pipeline before deploying to production  
+- Allows team members to verify staging results
+
+#### 8. 🚀 Deploy to Production
+- Spins up a container using `docker-compose.prod.yaml`  
+- **Nginx** handles reverse proxy to serve the app to users  
+- Static content served securely and efficiently
+
+#### 9. ✅ Post-Deployment Health Check
+- Sends HTTP request(s) to validate application is running (e.g., `curl /health`)  
+- Notifies via **Slack** or **email** on success/failure (optional)
+
+---
+
+### 📂 CI/CD Configuration
+
+All CI/CD-related files are located in a dedicated **configuration repository** for better separation of concerns and reusability across projects.
+
 🔗 [CI/CD Configuration Repository](https://github.com/netanelburkis/todo_list-cd.git)
+
+**Included there:**
+- `Jenkinsfile` (Pipeline as Code)
+- `docker-compose.staging.yaml` / `docker-compose.prod.yaml`
+- **Nginx** configuration files
+- Environment variable `.env` templates
+- Deployment and rollback scripts
+- Secrets management templates (e.g., using `.env`, **AWS Secrets Manager**, **Vault**)
+
+---
+
+### ✅ Benefits of This Setup
+
+- 🔁 **Repeatable & Reliable**: Consistent builds on every push  
+- 🧪 **Test-Driven**: Ensures code quality through automated testing  
+- 📦 **Containerized**: Fast, isolated deployments using Docker  
+- 🚀 **Multi-Environment Deployments**: Clear separation between staging and production  
+- 🔐 **Secure by Design**: Secrets managed securely, isolated build environment
 
 ## *Installation* 🔧
 
