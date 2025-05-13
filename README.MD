@@ -106,7 +106,6 @@ All CI/CD-related files are located in a dedicated **configuration repository** 
 - **Application Setup** (Nginx, MySQL, Flask)
 - **Versioning and Tag Management**
 - **Deployment and Rollback Scripts**
-- **Secrets management templates** (e.g., using `.env`, **AWS Secrets Manager**, **Vault**)
 
 ---
 
