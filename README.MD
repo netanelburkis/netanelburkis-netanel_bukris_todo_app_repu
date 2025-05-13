@@ -54,7 +54,7 @@ Todo_list/
 └── Jenkinsfile             # Jenkins pipeline configuration
 ```
 
-## **CI/CD Pipeline**⚙
+## **CI/CD Pipeline**⚙️
 ## 🛠️ CI/CD Pipeline Overview
 
 This project uses a **Jenkins pipeline** (defined in the `Jenkinsfile`) to fully automate the build, test, and deployment process using Jenkins.
