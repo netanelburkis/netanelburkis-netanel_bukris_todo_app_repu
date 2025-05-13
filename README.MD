@@ -60,7 +60,9 @@ The pipeline performs the following steps:
 - Run unit tests with **Pytest**
 - Run end-to-end tests with **Selenium**
 - Build a Docker image of the app
-- Deploy the app using **Docker** and **Nginx**
+- Deploy to two separate environments:
+  - **staging**: for testing and validation
+  - **production (Release Final)**: production-ready deployment
 
 All CI/CD configuration files (including Jenkins, Nginx, Docker, and deployment scripts) are stored in a separate repository:  
 🔗 [CI/CD Configuration Repository](https://github.com/netanelburkis/todo_list-cd.git)
