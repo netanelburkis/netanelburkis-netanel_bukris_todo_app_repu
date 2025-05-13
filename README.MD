@@ -50,7 +50,8 @@ Todo_list/
 ├── docker-compose.yaml    # Docker Compose configuration
 ├── nginx/                 # Nginx reverse proxy configuration
 │   └── default.conf       # Nginx configuration file
-└──Jenkinsfile             # Jenkins pipeline configuration
+├── .gitignore
+└── Jenkinsfile             # Jenkins pipeline configuration
 ```
 
 ## *Installation* 🔧
