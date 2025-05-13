@@ -48,8 +48,9 @@ Todo_list/
 │   ├── requirements.txt     # Dependencies for test environment
 │   └── test_selenium_in_parts.py     # Selenium test script for app
 ├── docker-compose.yaml    # Docker Compose configuration
-└── nginx/                 # Nginx reverse proxy configuration
-    └── default.conf       # Nginx configuration file
+├── nginx/                 # Nginx reverse proxy configuration
+│   └── default.conf       # Nginx configuration file
+└──Jenkinsfile             # Jenkins pipeline configuration
 ```
 
 ## *Installation* 🔧
