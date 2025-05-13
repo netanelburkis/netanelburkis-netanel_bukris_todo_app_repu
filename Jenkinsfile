@@ -1,5 +1,5 @@
 pipeline {
-
+// This Jenkinsfile is for a CI/CD pipeline that builds, tests, and deploys a Dockerized application.
    agent any
     environment {
         IMAGE_NAME = 'netanelbukris/to_do_list'
