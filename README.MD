@@ -327,7 +327,7 @@ networks:
 ```
 When the apps are connected to both the back and the front, the database will be connected to the back and nginx to the front.
 
-## **testing**
+## **testing**🧪
 The project uses Selenium for automating browser tests and Pytest for running the tests.
 
 To run the tests, follow these steps:
@@ -401,10 +401,18 @@ This will give you a visual representation of your test coverage.
 * `nginx.conf`: Nginx configuration file.  
 * `templates/`: Contains HTML files for the web app.  
 * `static/`: Contains static files like CSS and images.  
-* `config/`: Optional configuration files (not present in your current code, but can be added for better project organization).
-* `test/`: Contains test files for the application, including Selenium-based browser tests.
+* `.gitignore.`
+* `Jenkinsfile`: Jenkins pipeline configuration
+* `tests/`: Contains test files for the application, including Selenium-based browser tests.
    * `test_selenium_in_parts.py`: Selenium test script for app functionality.
    * `requirements.txt`: Dependencies for test environment.
+
+## **CI/CD Pipeline**⚙
+The project includes a Jenkinsfile for automating the build, test, and deployment processes using Jenkins. The pipeline is responsible for running unit tests with Pytest, measuring code coverage, building Docker images, and deploying the application in a consistent and repeatable manner.
+
+All CI/CD configuration files, including the Jenkins pipeline and related Docker/Nginx settings, can be found in the following repository:
+
+🔗 CI/CD Configuration Repo: https://github.com/netanelburkis/todo_list-cd.git.
 
 ## **Usage**🚀
 
@@ -429,3 +437,4 @@ This project is open-source and free to use.
 * **Pytest**: A testing framework for Python that allows for writing simple and scalable test cases. It supports fixtures and has a powerful plugin architecture to extend functionality. We use Pytest for unit testing our application and ensuring code quality.
 * **Selenium**: A popular tool for automating web browsers. Selenium allows us to simulate user interactions with the web application and perform end-to-end testing to verify that the app behaves correctly in different scenarios.
 * **Coverage**: A tool used to measure code coverage, which helps in ensuring that our tests are thorough and cover all areas of the code. Coverage provides detailed reports showing which parts of the code were executed during tests, and which were not, helping us identify untested areas and improve test coverage.
+* **Jenkins Pipeline**: An automation tool used to define and run CI/CD workflows. Our Jenkins pipeline automatically builds, tests, and deploys the application using Docker and Pytest. It provides immediate feedback on code changes and ensures continuous integration and delivery with minimal manual intervention.
