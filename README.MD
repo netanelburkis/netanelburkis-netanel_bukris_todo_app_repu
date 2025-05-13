@@ -55,11 +55,15 @@ Todo_list/
 ```
 
 ## **CI/CD Pipeline**⚙
-The project includes a Jenkinsfile for automating the build, test, and deployment processes using Jenkins. The pipeline is responsible for running unit tests with Pytest, measuring code coverage, building Docker images, and deploying the application in a consistent and repeatable manner.
+The project includes a `Jenkinsfile` to automate the entire build, test, and deployment process using **Jenkins**.  
+The pipeline performs the following steps:
+- Run unit tests with **Pytest**
+- Measure code coverage with **Coverage**
+- Build a Docker image of the app
+- Deploy the app using **Docker** and **Nginx**
 
-All CI/CD configuration files, including the Jenkins pipeline and related Docker/Nginx settings, can be found in the following repository:
-
-🔗 CI/CD Configuration Repo: https://github.com/netanelburkis/todo_list-cd.git.
+All CI/CD configuration files (including Jenkins, Nginx, Docker, and deployment scripts) are stored in a separate repository:  
+🔗 [CI/CD Configuration Repository](https://github.com/netanelburkis/todo_list-cd.git)
 
 ## *Installation* 🔧
 
