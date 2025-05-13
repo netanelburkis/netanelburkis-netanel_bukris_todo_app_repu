@@ -1,7 +1,6 @@
 pipeline {
 // This Jenkinsfile is for a CI/CD pipeline that builds, tests, and deploys a Dockerized application.
 // It includes stages for building the Docker image, running tests, and deploying to staging and production environments.
-// The pipeline uses Jenkins plugins for Docker, SSH, and Slack notifications.
    agent any
     environment {
         IMAGE_NAME = 'netanelbukris/to_do_list'
