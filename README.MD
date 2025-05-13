@@ -58,7 +58,7 @@ Todo_list/
 The project includes a `Jenkinsfile` to automate the entire build, test, and deployment process using **Jenkins**.  
 The pipeline performs the following steps:
 - Run unit tests with **Pytest**
-- Measure code coverage with **Coverage**
+- Run end-to-end tests with **Selenium**
 - Build a Docker image of the app
 - Deploy the app using **Docker** and **Nginx**
 
