@@ -78,16 +78,14 @@ Creates a Docker image using the `Dockerfile`, tagged with the build number and 
 #### 5. 📤 Push Docker Image to Registry
 Pushes the image to **DockerHub** (or your private registry) for versioned deployment.
 
-#### 6. 🚧 Deploy to Staging Environment
-- Spins up a container using `docker-compose.staging.yaml`  
+#### 6. 🚧 Deploy to Staging Environment 
 - Used for validation, manual testing, and QA checks
 
 #### 7. ⏸️ Manual Approval Step (Optional)
 - Pauses the pipeline before deploying to production  
 - Allows team members to verify staging results
 
-#### 8. 🚀 Deploy to Production
-- Spins up a container using `docker-compose.prod.yaml`  
+#### 8. 🚀 Deploy to Production 
 - **Nginx** handles reverse proxy to serve the app to users  
 - Static content served securely and efficiently
 
@@ -105,7 +103,6 @@ All CI/CD-related files are located in a dedicated **configuration repository** 
 
 **Included in the CI/CD Configuration Repository:**
 - `Jenkinsfile` (Pipeline as Code)
-- `docker-compose.staging.yaml` / `docker-compose.prod.yaml`
 - **Application Setup** (Nginx, MySQL, Flask)
 - **Versioning and Tag Management**
 - **Deployment and Rollback Scripts**
