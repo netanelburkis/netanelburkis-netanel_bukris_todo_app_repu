@@ -44,7 +44,7 @@ Todo_list/
 │     ├── by-netanel-bukris.html     # by template file
 │     ├── login-register.html     # login template file
 │     └── main-page-todo-list.html     # Main template file
-├── test     # Test files and configurations
+├── tests     # Test files and configurations
 │   ├── requirements.txt     # Dependencies for test environment
 │   └── test_selenium_in_parts.py     # Selenium test script for app
 ├── docker-compose.yaml    # Docker Compose configuration
