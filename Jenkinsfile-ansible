@@ -1,12 +1,7 @@
 pipeline {
 // This Jenkinsfile is for a CI/CD pipeline that builds, tests, and deploys a Dockerized application.
 // It includes stages for building the Docker image, running tests, and deploying to staging and production environments.
-// The pipeline also includes error handling and notifications via Slack and email.
-// The pipeline is designed to be triggered by changes in specific files and branches.
-// It uses Docker, Ansible, and GitHub for deployment and version control.
-// The pipeline is structured to ensure that only the necessary stages are executed based on the changes detected in the repository.
-// The pipeline is designed to be run on a Jenkins server with the necessary plugins and configurations in place.
-
+//jenkinsfile-ansible for the todo list project
    agent any
     environment {
         IMAGE_NAME = 'netanelbukris/to_do_list'
@@ -145,7 +140,7 @@ pipeline {
                 echo 'Updating stage version...'
                 withCredentials([usernamePassword(credentialsId: 'Branch_Sources_GitHub_Credentials', passwordVariable: 'GH_PASSWORD', usernameVariable: 'GH_USERNAME')]) {
                     script {
-                // Steps:
+                        // Steps:
                         // 1. Clone the GitOps repository
                         // 2. Update the stage_tag in ansible/group_vars/all.yml with the new version
                         // 3. Write the version to stage_version.txt
