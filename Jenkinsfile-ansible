@@ -140,19 +140,19 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Branch_Sources_GitHub_Credentials', passwordVariable: 'GH_PASSWORD', usernameVariable: 'GH_USERNAME')]) {
                     script {
                         // Clone the GitOps repository
-                        // Update the stage_version.txt file with the new version, commit the changes and push them
+                        // Update the stage_tag in ansible/group_vars/all.yml with the new version, commit the changes and push them
                         // The GitOps repository is assumed to be a separate repository that manages the deployment of the application.
                         sh """
-                            rm -rf gitops 
-                            git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
+                            rm -rf gitops
+                            git clone https://${GH_TOKEN}@github.com/${GITOPS_REPO} gitops
                             cd gitops
-                            echo "${VERSION}" > stage_version.txt
+                            sed -i 's/^stage_tag:.*/stage_tag: ${VERSION}/' ansible/group_vars/all.yml
                             git config user.name "jenkins"
-                            git config user.email "${email}"
-                            git add stage_version.txt
+                            git config user.email "ci@jenkins.local"
+                            git add ansible/group_vars/all.yml
                             git commit -m "Update stage version to ${VERSION}"
                             git push origin main
-                        """   
+                        """ 
                     }
                 }                                               
             }    
@@ -207,18 +207,19 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'Branch_Sources_GitHub_Credentials', passwordVariable: 'GH_PASSWORD', usernameVariable: 'GH_USERNAME')]) {
                     script {
                         // Clone the GitOps repository
-                        // Update the production_version.txt file with the new version, commit the changes and push them
+                        // Update the prod_tag in ansible/group_vars/all.yml with the new version, commit the changes and push them
                         // The GitOps repository is assumed to be a separate repository that manages the deployment of the application.
                         sh """
                             rm -rf gitops
-                            git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
+                            git clone https://${GH_TOKEN}@github.com/${GITOPS_REPO} gitops
                             cd gitops
+                            sed -i 's/^prod_tag:.*/prod_tag: ${NEW_VERSION}/' ansible/group_vars/all.yml
                             echo "${NEW_VERSION}" > production_version.txt
                             git config user.name "jenkins"
-                            git config user.email "${email}"
-                            git add production_version.txt
+                            git config user.email "ci@jenkins.local"
+                            git add ansible/group_vars/all.yml
                             git commit -m "Update production version to ${NEW_VERSION}"
-                            git push origin main   
+                            git push origin main
                         """
                     }
                 }                                               
