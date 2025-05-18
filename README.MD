@@ -101,21 +101,87 @@ All CI/CD-related files are located in a dedicated **configuration repository** 
 
 🔗 [CI/CD Configuration Repository](https://github.com/netanelburkis/todo_list-cd.git)
 
-**Included in the CI/CD Configuration Repository:**
-- `Jenkinsfile` (Pipeline as Code)
-- **Application Setup** (Nginx, MySQL, Flask)
-- **Versioning and Tag Management**
-- **Deployment and Rollback Scripts**
+🔗 CI/CD Configuration Repository
+Included in the CI/CD Configuration Repository:
 
----
+Jenkinsfile (Pipeline as Code)
 
-### ✅ Benefits of This Setup
+Application Setup (Nginx, MySQL, Flask)
 
-- 🔁 **Repeatable & Reliable**: Consistent builds on every push  
-- 🧪 **Test-Driven**: Ensures code quality through automated testing  
-- 📦 **Containerized**: Fast, isolated deployments using Docker  
-- 🚀 **Multi-Environment Deployments**: Clear separation between staging and production  
-- 🔐 **Secure by Design**: Secrets managed securely, isolated build environment
+Versioning and Tag Management
+
+Deployment and Rollback Scripts
+
+🤖 How Ansible & Terraform Fit into the CI/CD Pipeline
+Ansible and Terraform work together to automate infrastructure management and ensure that the application is deployed on consistent, reproducible environments.
+
+🚀 Terraform: Infrastructure as Code (IaC)
+Terraform is used to provision and manage the infrastructure that the ToDo List application runs on. With Terraform, we define the infrastructure resources (like EC2 instances, RDS databases, VPCs, etc.) in code, which allows for:
+
+Reproducibility: The infrastructure setup can be re-applied on multiple environments (staging, production, etc.) and can be easily versioned.
+
+Scalability: Infrastructure resources can be created, modified, and destroyed automatically as needed.
+
+🚧 How Terraform Works in the Pipeline
+Provisioning the Infrastructure:
+
+Terraform is used in the pipeline to automatically provision resources like EC2 instances, load balancers, RDS databases, etc.
+
+The pipeline will trigger terraform apply to provision resources in the required environments (staging and production).
+Example command:
+```bash
+terraform init  # Initializes the Terraform working directory
+terraform apply -var-file=staging.tfvars  # Applies the configuration for staging
+```
+Infrastructure Updates:
+Whenever there is a change in the infrastructure requirements (e.g., scaling up EC2 instances or adding more databases), Terraform handles those updates automatically.
+
+Environment Consistency:
+Terraform ensures that all environments are consistent. Whether you're deploying to staging or production, the same infrastructure configuration will be applied, ensuring no environment drift.
+
+🤖 Ansible: Configuration Management
+Once the infrastructure is provisioned by Terraform, Ansible takes over to configure the servers and deploy the application. Ansible is used to:
+
+Install and configure Nginx, MySQL, and Flask on the provisioned infrastructure.
+
+Deploy the latest Docker images to the staging and production environments.
+
+🚧 Full Pipeline Flow with Terraform, Ansible, and Jenkins:
+Terraform provisions the infrastructure:
+
+EC2 instances, databases, networking, etc.
+
+Ansible automates the configuration of the infrastructure:
+
+Install and configure the necessary software (Nginx, MySQL, Flask).
+
+Deploy the Docker container to the infrastructure.
+
+Jenkins manages the CI/CD pipeline:
+
+Build and test the application.
+
+Trigger Terraform and Ansible as part of the deployment process.
+
+✅ Benefits of This Setup
+🔁 Repeatable & Reliable: Consistent builds and deployments with every push to the repository, with infrastructure managed as code.
+
+🧪 Test-Driven: Ensures code quality through automated unit tests and end-to-end tests.
+
+📦 Containerized: Fast, isolated deployments using Docker, simplifying the management of dependencies and application environment.
+
+🚀 Multi-Environment Deployments: Clear separation between staging and production environments.
+
+🔐 Secure by Design: Secrets are managed securely, with isolated build and deployment environments.
+
+📈 Scalable Infrastructure: Terraform allows for automated, scalable infrastructure provisioning.
+
+🌍 Cloud-Native: Full automation with cloud resources (e.g., EC2, RDS, VPC) managed via Terraform.
+
+📥 Notifications (Jenkins)
+Jenkins can notify you upon successful or failed pipeline stages using Slack or Email integrations.
+
+Make sure to configure the appropriate Slack webhook or Email notification in Jenkins.
 
 ## *Installation* 🔧
 
