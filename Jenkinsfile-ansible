@@ -223,7 +223,7 @@ pipeline {
                         // 4. Commit and push the changes
                         sh """
                             rm -rf gitops
-                            git clone https://$\{GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
+                            git clone https://\${GH_PASSWORD}@github.com/${GITOPS_REPO} gitops
                             cd gitops
                             sed -i 's/^prod_tag:.*/prod_tag: ${NEW_VERSION}/' ansible/group_vars/all.yml
                             echo "${NEW_VERSION}" > production_version.txt
