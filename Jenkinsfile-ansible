@@ -1,5 +1,6 @@
 pipeline {
 //jenkinsfile-ansible for the todo list projectS
+// This Jenkinsfile is used to build, test, and deploy a Dockerized application using Ansible.
    agent any
     environment {
         IMAGE_NAME = 'netanelbukris/to_do_list'
