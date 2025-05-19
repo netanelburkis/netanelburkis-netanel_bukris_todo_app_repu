@@ -190,7 +190,7 @@ body {
 
 .completed {
     text-decoration: line-through;
-    color: gray;
+    color: rgb(125, 123, 123);
 }
 
 .task-date {
