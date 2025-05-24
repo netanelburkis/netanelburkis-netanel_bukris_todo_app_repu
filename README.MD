@@ -11,7 +11,9 @@
 ![Selenium](https://img.shields.io/badge/Selenium-green)
 ![Coverage](https://img.shields.io/badge/Coverage-blue)
 
-A simple to-do list web application built using Flask, SQLAlchemy, MySQL, Docker, Gunicorn, and Nginx. This app allows users to register, log in, and manage tasks. It uses a MySQL database to store user information and tasks.
+To-do list web application built with Flask, SQLAlchemy, MySQL, Docker, Gunicorn, and Nginx. The app allows users to register, log in, and manage their tasks efficiently, with all data securely stored in a MySQL database.
+
+This project is integrated with a CI/CD pipeline to automate testing, building, and deployment processes, ensuring rapid and reliable updates.
 
 ## *Features*✨
 
