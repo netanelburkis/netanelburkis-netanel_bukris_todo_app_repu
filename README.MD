@@ -1,5 +1,4 @@
 # *Todo List Flask App with CI/CD Pipeline*📋
-              By Netanel Bukris
 ![Python](https://img.shields.io/badge/python-blue)
 ![Docker](https://img.shields.io/badge/docker-blue)
 ![Flask](https://img.shields.io/badge/Flask-blue)
