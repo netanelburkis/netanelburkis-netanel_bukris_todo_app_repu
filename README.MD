@@ -102,8 +102,6 @@ Pushes the image to **DockerHub** (or your private registry) for versioned deplo
 All CI/CD-related files are located in a dedicated **configuration repository** for better separation of concerns and reusability across projects.
 
 🔗 [CI/CD Configuration Repository](https://github.com/netanelburkis/todo_list-cd.git)
-
-🔗 CI/CD Configuration Repository
 Included in the CI/CD Configuration Repository:
 
 Jenkinsfile (Pipeline as Code)
